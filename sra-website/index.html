@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Siddhivinayak Realtors and Associates - Your trusted partner for business loans, home loans, personal loans, and bank-sealed auction properties.">
+    <title>SRA - Siddhivinayak Realtors and Associates | Banking & Real Estate Solutions</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/glassmorphism.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top glass-nav">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary-blue" href="index.html">
+                <i class="bi bi-building"></i> SRA
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#loans">Loans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#properties">Properties</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#documents">Documents</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item" id="authNav">
+                        <a class="btn btn-primary ms-lg-3" href="login.html">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section d-flex align-items-center"
+        style="min-height: 100vh; background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #14b8a6 100%); padding-top: 80px;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-white fade-in">
+                    <h1 class="display-3 fw-bold mb-4">Your Gateway to Financial Freedom</h1>
+                    <p class="lead mb-4">Siddhivinayak Realtors and Associates - Specializing in Business Loans, Home
+                        Loans, Personal Loans, and Premium Bank-Sealed Auction Properties</p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="#loans" class="btn btn-gold btn-lg">Explore Loans</a>
+                        <a href="#properties" class="btn glass-btn btn-lg">View Properties</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 mt-5 mt-lg-0">
+                    <div class="glass-card-dark p-5 text-center">
+                        <i class="bi bi-bank2 display-1 text-gold mb-3"></i>
+                        <h3 class="text-white mb-3">Trusted Financial Partner</h3>
+                        <p class="text-white-50">Over 1000+ satisfied clients and counting</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loan Services Section -->
+    <section id="loans" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Our Loan Services</h2>
+            <div class="row g-4">
+                <!-- Home Loan -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="glass-card text-center h-100 d-flex flex-column">
+                        <i class="bi bi-house-fill display-3 text-primary-blue mb-3"></i>
+                        <h4 class="mb-3">Home Loan</h4>
+                        <p class="text-muted mb-4">Make your dream home a reality with our affordable home loan
+                            solutions and lowest interest rates in the market.</p>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-teal me-2"></i>Up to ₹1 Crore</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-teal me-2"></i>Tenure up to 30 years
+                            </li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-teal me-2"></i>Low Interest Rates
+                            </li>
+                        </ul>
+                        <div class="mt-auto">
+                            <button class="btn btn-primary w-100" onclick="openScheduleMeeting('Home Loan')">
+                                <i class="bi bi-calendar-check me-2"></i>Schedule Meeting
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Business Loan -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="glass-card text-center h-100 d-flex flex-column">
+                        <i class="bi bi-briefcase-fill display-3 text-primary-blue mb-3"></i>
+                        <h4 class="mb-3">Business Loan</h4>
+                        <p class="text-muted mb-4">Fuel your business growth with competitive interest rates and
+                            flexible repayment options tailored for entrepreneurs.</p>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-teal me-2"></i>Up to ₹50 Lakhs</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-teal me-2"></i>Quick Approval</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-teal me-2"></i>Minimal Documentation
+                            </li>
+                        </ul>
+                        <div class="mt-auto">
+                            <button class="btn btn-primary w-100" onclick="openScheduleMeeting('Business Loan')">
+                                <i class="bi bi-calendar-check me-2"></i>Schedule Meeting
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Personal Loan -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="glass-card text-center h-100 d-flex flex-column">
+                        <i class="bi bi-person-fill display-3 text-primary-blue mb-3"></i>
+                        <h4 class="mb-3">Personal Loan</h4>
+                        <p class="text-muted mb-4">Get instant funds for any personal need with our hassle-free personal
+                            loan process and attractive interest rates.</p>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-teal me-2"></i>Up to ₹25 Lakhs</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-teal me-2"></i>Same Day Approval
+                            </li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-teal me-2"></i>No Collateral
+                                Required</li>
+                        </ul>
+                        <div class="mt-auto">
+                            <button class="btn btn-primary w-100" onclick="openScheduleMeeting('Personal Loan')">
+                                <i class="bi bi-calendar-check me-2"></i>Schedule Meeting
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Mortgage Loan -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="glass-card text-center h-100 d-flex flex-column">
+                        <i class="bi bi-bank display-3 text-primary-blue mb-3"></i>
+                        <h4 class="mb-3">Mortgage Loan</h4>
+                        <p class="text-muted mb-4">Leverage your property to get funds at the best rates. Ideal for
+                            LAP (Loan Against Property) and resale/mortgage needs.</p>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-teal me-2"></i>Up to 70% of Property
+                                Value</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-teal me-2"></i>Tenure up to 20 years
+                            </li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-teal me-2"></i>Competitive Interest
+                                Rates</li>
+                        </ul>
+                        <div class="mt-auto">
+                            <button class="btn btn-primary w-100" onclick="openScheduleMeeting('Mortgage Loan')">
+                                <i class="bi bi-calendar-check me-2"></i>Schedule Meeting
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- BT Top-up Loan -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="glass-card text-center h-100 d-flex flex-column">
+                        <i class="bi bi-arrow-repeat display-3 text-primary-blue mb-3"></i>
+                        <h4 class="mb-3">BT Top-up</h4>
+                        <p class="text-muted mb-4">Balance transfer with top-up facility to reduce EMI burden and get
+                            additional funds at lower interest rates.</p>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-teal me-2"></i>Lower Interest Rates
+                            </li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-teal me-2"></i>Additional Top-up
+                            </li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-teal me-2"></i>Reduced EMI</li>
+                        </ul>
+                        <div class="mt-auto">
+                            <button class="btn btn-primary w-100" onclick="openScheduleMeeting('BT Top-up')">
+                                <i class="bi bi-calendar-check me-2"></i>Schedule Meeting
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Properties Section -->
+    <section id="properties" class="section">
+        <div class="container">
+            <h2 class="section-title">Bank-Sealed Auction Properties</h2>
+            <p class="text-center text-muted mb-5">Exclusive opportunities to own premium properties at competitive
+                prices</p>
+
+            <!-- Filter Options -->
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="glass-card p-3">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <select class="form-select" id="filterType">
+                                    <option value="all">All Types</option>
+                                    <option value="residential">Residential</option>
+                                    <option value="commercial">Commercial</option>
+                                    <option value="land">Land</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" id="filterLocation"
+                                    placeholder="Search location...">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" id="filterMinPrice" placeholder="Min Price">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" id="filterMaxPrice" placeholder="Max Price">
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary w-100" onclick="applyFilters()">
+                                    <i class="bi bi-funnel"></i> Filter
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Properties Grid -->
+            <div class="row g-4" id="propertiesGrid">
+                <!-- Properties will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Required Documents Section -->
+    <section id="documents" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Required Documents</h2>
+            <p class="text-center text-muted mb-5">Please keep the following documents ready before your meeting with
+                our team</p>
+
+            <div class="row g-4 mb-5">
+                <!-- Salaried -->
+                <div class="col-md-6">
+                    <div class="glass-card h-100">
+                        <h5 class="text-primary-blue mb-3"><i class="bi bi-person-badge me-2"></i>Salaried Employees
+                        </h5>
+                        <ol class="mb-0">
+                            <li class="mb-1">Last 6 months salary slip (Original)</li>
+                            <li class="mb-1">Bank statements for 1 year (Salary Account)</li>
+                            <li class="mb-1">Pan card, I card, Aadhar card Color xerox</li>
+                            <li class="mb-1">Appointment &amp; Confirmation Letter, Form No.16 Last 2 yrs</li>
+                            <li class="mb-1">PF Statement (For Government Employee)</li>
+                            <li class="mb-1">Residential Proof (Ration Card, Light bill)</li>
+                            <li class="mb-1">Qualification Certificate, 3 Colour Photo</li>
+                            <li class="mb-1">All loan details &amp; Statement</li>
+                            <li class="mb-1">Co applicant (Pan card, Aadhar card Color, Photos 3)</li>
+                            <li class="mb-1">Cheque 1</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- Business Profile -->
+                <div class="col-md-6">
+                    <div class="glass-card h-100">
+                        <h5 class="text-primary-blue mb-3"><i class="bi bi-briefcase me-2"></i>Business Profile</h5>
+                        <ol class="mb-0">
+                            <li class="mb-1">Last 3yrs ITR C.A Attested (Statement of income, Profit &amp; Loss Ac,
+                                Balance sheet, Capital Ac, Tax paid challan), Form 26AS</li>
+                            <li class="mb-1">Bank statements for 1 year (Saving &amp; Current Account)</li>
+                            <li class="mb-1">Pan card, Aadhar card Color xerox</li>
+                            <li class="mb-1">Gumsta License, Udyog Aadhar, Shop Agreement, Light bill copy</li>
+                            <li class="mb-1">Business Profile in company letter head</li>
+                            <li class="mb-1">Residential Proof (Ration Card, Light bill)</li>
+                            <li class="mb-1">Qualification Certificate, 3 Color Photo</li>
+                            <li class="mb-1">All loan details &amp; Statement</li>
+                            <li class="mb-1">Co applicant (Pan card, Aadhar card color, Photos 3)</li>
+                            <li class="mb-1">Cheque</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- Property Document (Builder) -->
+                <div class="col-md-6">
+                    <div class="glass-card h-100">
+                        <h5 class="text-primary-blue mb-3"><i class="bi bi-building me-2"></i>Property Document
+                            (Builder)</h5>
+                        <ul class="mb-0">
+                            <li class="mb-1">Builder Legal Documents (Development Agr. / Partnership Deed / Power of
+                                Attorney / 7/12 / Extrac / Title / Search Copy / Blue Print Plan Copy)</li>
+                            <li class="mb-1">Sale Agreement Original / Draft Agreement</li>
+                            <li class="mb-1">Builder NOC Favour of Bank (Format), Demand &amp; Architect Letter</li>
+                            <li class="mb-1">OCR Receipt &amp; Bank Clearance</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Property Document Resale / Mortgage / LAP -->
+                <div class="col-md-6">
+                    <div class="glass-card h-100">
+                        <h5 class="text-primary-blue mb-3"><i class="bi bi-house-door me-2"></i>Property Document –
+                            Resale / Mortgage / LAP</h5>
+                        <ul class="mb-0">
+                            <li class="mb-1">Purchase Agreement Copy / Chain of Agreement</li>
+                            <li class="mb-1">Tax, Maintenance, Light Bill Latest Copy</li>
+                            <li class="mb-1">Share Certificate</li>
+                            <li class="mb-1">Society Registration Certificate</li>
+                            <li class="mb-1">OC Copy, Plan Copy</li>
+                            <li class="mb-1">Society NOC Favour of Bank (Format), OCR with Bank Clearance</li>
+                            <li class="mb-1">Seller Pan Card / Aadhar Card / Photo / Cancelled Cheque / Request Letter
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Balance Transfer + Top Up -->
+                <div class="col-md-6">
+                    <div class="glass-card h-100">
+                        <h5 class="text-primary-blue mb-3"><i class="bi bi-arrow-left-right me-2"></i>Balance Transfer +
+                            Top Up</h5>
+                        <ul class="mb-0">
+                            <li class="mb-1">List of Documents, Outstanding Letter &amp; Track Report</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Document Image -->
+                <div class="col-md-6">
+                    <div
+                        class="glass-card h-100 text-center d-flex flex-column justify-content-center align-items-center">
+                        <i class="bi bi-file-earmark-text display-1 text-primary-blue mb-3"></i>
+                        <h5 class="mb-2">Need Help with Documents?</h5>
+                        <p class="text-muted mb-4">Our experts will guide you through the entire documentation process.
+                            Schedule a meeting and we'll assist you step by step.</p>
+                        <button class="btn btn-primary" onclick="openScheduleMeeting('')">
+                            <i class="bi bi-calendar-check me-2"></i>Schedule a Meeting
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="mb-4">About Siddhivinayak Realtors and Associates</h2>
+                    <p class="lead text-muted mb-4">Your trusted partner in financial solutions and real estate
+                        investments since 2010.</p>
+                    <p class="mb-4">At SRA, we specialize in providing comprehensive financial services including
+                        business loans, home loans, and personal loans with competitive interest rates and flexible
+                        terms. Additionally, we offer exclusive access to bank-sealed auction properties, helping you
+                        find the perfect investment opportunity.</p>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="glass-card text-center p-3">
+                                <h3 class="text-primary-blue mb-0">1000+</h3>
+                                <p class="text-muted mb-0">Happy Clients</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="glass-card text-center p-3">
+                                <h3 class="text-primary-blue mb-0">500+</h3>
+                                <p class="text-muted mb-0">Properties Sold</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="glass-card text-center p-3">
+                                <h3 class="text-primary-blue mb-0">₹100Cr+</h3>
+                                <p class="text-muted mb-0">Loans Disbursed</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="glass-card text-center p-3">
+                                <h3 class="text-primary-blue mb-0">14+</h3>
+                                <p class="text-muted mb-0">Years Experience</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mt-5 mt-lg-0">
+                    <div class="glass-card p-5">
+                        <h4 class="mb-4">Why Choose SRA?</h4>
+                        <div class="mb-3">
+                            <i class="bi bi-shield-check text-teal fs-4 me-2"></i>
+                            <strong>Trusted & Reliable</strong>
+                            <p class="text-muted ms-5">14+ years of excellence in financial services</p>
+                        </div>
+                        <div class="mb-3">
+                            <i class="bi bi-lightning-charge text-teal fs-4 me-2"></i>
+                            <strong>Quick Processing</strong>
+                            <p class="text-muted ms-5">Fast loan approvals and property documentation</p>
+                        </div>
+                        <div class="mb-3">
+                            <i class="bi bi-people text-teal fs-4 me-2"></i>
+                            <strong>Expert Guidance</strong>
+                            <p class="text-muted ms-5">Professional team to assist you at every step</p>
+                        </div>
+                        <div class="mb-0">
+                            <i class="bi bi-graph-up-arrow text-teal fs-4 me-2"></i>
+                            <strong>Best Deals</strong>
+                            <p class="text-muted ms-5">Competitive rates and exclusive property listings</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="glass-card text-center h-100">
+                        <i class="bi bi-geo-alt-fill display-4 text-primary-blue mb-3"></i>
+                        <h5>Visit Us</h5>
+                        <p class="text-muted">123 Business Park, Pune, Maharashtra 411001</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="glass-card text-center h-100">
+                        <i class="bi bi-telephone-fill display-4 text-primary-blue mb-3"></i>
+                        <h5>Call Us</h5>
+                        <p class="text-muted">+91 98765 43210<br>+91 98765 43211</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="glass-card text-center h-100">
+                        <i class="bi bi-envelope-fill display-4 text-primary-blue mb-3"></i>
+                        <h5>Email Us</h5>
+                        <p class="text-muted">info@sra.com<br>support@sra.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-lg-8 mx-auto">
+                    <div class="glass-container">
+                        <h4 class="mb-4 text-center">Send Us a Message</h4>
+                        <form id="contactForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Name</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Phone</label>
+                                    <input type="tel" class="form-control" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Service Interested In</label>
+                                    <select class="form-select" required>
+                                        <option value="">Select...</option>
+                                        <option>Business Loan</option>
+                                        <option>Home Loan</option>
+                                        <option>Personal Loan</option>
+                                        <option>Property Purchase</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Message</label>
+                                    <textarea class="form-control" rows="4" required></textarea>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg px-5">Send Message</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Meeting Modal -->
+    <div class="modal fade" id="scheduleMeetingModal" tabindex="-1" aria-labelledby="scheduleMeetingModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content glass-card">
+                <div class="modal-header border-0"
+                    style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white;">
+                    <h4 class="modal-title" id="scheduleMeetingModalLabel">
+                        <i class="bi bi-calendar-check"></i> Schedule a Meeting
+                    </h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Confirmed Meeting Alert (shown if admin has confirmed) -->
+                    <div id="confirmedMeetingAlert" class="alert alert-success d-none mb-4">
+                        <i class="bi bi-calendar-check-fill me-2"></i>
+                        <strong>Your meeting has been confirmed!</strong>
+                        <div id="confirmedMeetingDetails" class="mt-2"></div>
+                    </div>
+
+                    <div id="meetingFormContainer">
+                        <p class="text-muted mb-4">
+                            <i class="bi bi-info-circle text-primary-blue me-2"></i>
+                            Fill in your details below. Our team will review your request and confirm the meeting date
+                            &amp; time.
+                        </p>
+                        <form id="scheduleMeetingForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Loan Type <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="meetingLoanType" required>
+                                        <option value="">Select Loan Type</option>
+                                        <option value="Home Loan">Home Loan</option>
+                                        <option value="Business Loan">Business Loan</option>
+                                        <option value="Personal Loan">Personal Loan</option>
+                                        <option value="Mortgage Loan">Mortgage Loan (LAP)</option>
+                                        <option value="BT Top-up">BT Top-up</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Full Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="meetingName"
+                                        placeholder="Your full name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Mobile Number <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">+91</span>
+                                        <input type="tel" class="form-control" id="meetingPhone" pattern="[6-9][0-9]{9}"
+                                            placeholder="10-digit mobile number" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="meetingEmail"
+                                        placeholder="your@email.com">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Preferred Date <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="meetingPreferredDate" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Preferred Time <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="meetingPreferredTime" required>
+                                        <option value="">Select Time Slot</option>
+                                        <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</option>
+                                        <option value="11:00 AM - 12:00 PM">11:00 AM - 12:00 PM</option>
+                                        <option value="12:00 PM - 1:00 PM">12:00 PM - 1:00 PM</option>
+                                        <option value="2:00 PM - 3:00 PM">2:00 PM - 3:00 PM</option>
+                                        <option value="3:00 PM - 4:00 PM">3:00 PM - 4:00 PM</option>
+                                        <option value="4:00 PM - 5:00 PM">4:00 PM - 5:00 PM</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Loan Amount Required</label>
+                                    <input type="number" class="form-control" id="meetingLoanAmount"
+                                        placeholder="Amount in ₹">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Employment Type</label>
+                                    <select class="form-select" id="meetingEmploymentType">
+                                        <option value="">Select Type</option>
+                                        <option value="Salaried">Salaried</option>
+                                        <option value="Self-Employed">Self-Employed / Business</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Message / Additional Details</label>
+                                    <textarea class="form-control" id="meetingMessage" rows="3"
+                                        placeholder="Any specific requirements or questions..."></textarea>
+                                </div>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    <i class="bi bi-send me-2"></i>Submit Meeting Request
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Success Message (shown after submission) -->
+                    <div id="meetingSuccessMsg" class="d-none text-center py-4">
+                        <i class="bi bi-check-circle-fill text-success display-1 mb-3"></i>
+                        <h4 class="text-success">Meeting Request Submitted!</h4>
+                        <p class="text-muted">Our team will review your request and confirm the meeting date &amp; time.
+                            You will be notified soon.</p>
+                        <button class="btn btn-outline-primary mt-2" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loan Application Modal -->
+    <div class="modal fade" id="loanApplicationModal" tabindex="-1" aria-labelledby="loanApplicationModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content glass-card">
+                <div class="modal-header border-0">
+                    <h4 class="modal-title" id="loanApplicationModalLabel">
+                        <i class="bi bi-file-earmark-text text-primary-blue"></i> Loan Application Form
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loanApplicationForm">
+                        <!-- Loan Details -->
+                        <div class="mb-4">
+                            <h5 class="text-primary-blue mb-3"><i class="bi bi-info-circle"></i> Loan Details</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Loan Type <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="loanType" required>
+                                        <option value="">Select Loan Type</option>
+                                        <option value="Home Loan">Home Loan</option>
+                                        <option value="Business Loan">Business Loan</option>
+                                        <option value="Personal Loan">Personal Loan</option>
+                                        <option value="Mortgage Loan">Mortgage Loan (LAP)</option>
+                                        <option value="BT Top-up">BT Top-up</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Loan Amount <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="loanAmount"
+                                        placeholder="Enter amount in ₹" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Applicant Details -->
+                        <div class="mb-4">
+                            <h5 class="text-primary-blue mb-3"><i class="bi bi-person"></i> Applicant Details</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Applicant Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="applicantName" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Mobile Number <span class="text-danger">*</span></label>
+                                    <input type="tel" class="form-control" id="applicantMobile" pattern="[0-9]{10}"
+                                        placeholder="10-digit mobile number" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Co-Applicant Details -->
+                        <div class="mb-4">
+                            <h5 class="text-primary-blue mb-3"><i class="bi bi-people"></i> Co-Applicant Details</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Co-Applicant Name</label>
+                                    <input type="text" class="form-control" id="coApplicantName">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Co-Applicant Mobile Number</label>
+                                    <input type="tel" class="form-control" id="coApplicantMobile" pattern="[0-9]{10}"
+                                        placeholder="10-digit mobile number">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Personal Information -->
+                        <div class="mb-4">
+                            <h5 class="text-primary-blue mb-3"><i class="bi bi-card-text"></i> Personal Information</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Education <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="education" required>
+                                        <option value="">Select Education</option>
+                                        <option value="High School">High School</option>
+                                        <option value="Graduate">Graduate</option>
+                                        <option value="Post Graduate">Post Graduate</option>
+                                        <option value="Professional">Professional</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Marital Status <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="maritalStatus" required>
+                                        <option value="">Select Status</option>
+                                        <option value="Single">Single</option>
+                                        <option value="Married">Married</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Mother's Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="motherName" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Number of Dependents <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="dependents" min="0" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Residence Information -->
+                        <div class="mb-4">
+                            <h5 class="text-primary-blue mb-3"><i class="bi bi-house-door"></i> Residence Information
+                            </h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Years in Current Residence <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="yearsInResidence" min="0" step="0.1"
+                                        required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Years in Current City <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="yearsInCity" min="0" step="0.1"
+                                        required>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label">Current Address <span class="text-danger">*</span></label>
+                                    <textarea class="form-control" id="currentAddress" rows="2" required></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Landmark <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="landmark" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div class="mb-4">
+                            <h5 class="text-primary-blue mb-3"><i class="bi bi-envelope"></i> Contact Information</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Personal Email ID <span
+                                            class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="personalEmail" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Official Email ID</label>
+                                    <input type="email" class="form-control" id="officialEmail">
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label">Permanent Address <span
+                                            class="text-danger">*</span></label>
+                                    <textarea class="form-control" id="permanentAddress" rows="2" required></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Permanent Contact Number <span
+                                            class="text-danger">*</span></label>
+                                    <input type="tel" class="form-control" id="permanentContact" pattern="[0-9]{10}"
+                                        placeholder="10-digit number" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Employment Information -->
+                        <div class="mb-4">
+                            <h5 class="text-primary-blue mb-3"><i class="bi bi-briefcase"></i> Employment Information
+                            </h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Years in Current Company <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="yearsInCompany" min="0" step="0.1"
+                                        required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Total Work Experience <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="totalExperience" min="0" step="0.1"
+                                        required>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label">Office Address with Landmark <span
+                                            class="text-danger">*</span></label>
+                                    <textarea class="form-control" id="officeAddress" rows="2" required></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Office Landline Number</label>
+                                    <input type="tel" class="form-control" id="officeLandline"
+                                        placeholder="With STD code">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- References -->
+                        <div class="mb-4">
+                            <h5 class="text-primary-blue mb-3"><i class="bi bi-person-lines-fill"></i> References</h5>
+
+                            <!-- Reference 1 - Friend -->
+                            <div class="card mb-3"
+                                style="background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(255, 255, 255, 0.3);">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-3">Reference 1 - Friend <span class="text-danger">*</span>
+                                    </h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label">Friend Name</label>
+                                            <input type="text" class="form-control" id="friend1Name" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Mobile Number</label>
+                                            <input type="tel" class="form-control" id="friend1Mobile"
+                                                pattern="[0-9]{10}" placeholder="10-digit number" required>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="form-label">Address</label>
+                                            <textarea class="form-control" id="friend1Address" rows="2"
+                                                required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Reference 2 - Relative -->
+                            <div class="card"
+                                style="background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(255, 255, 255, 0.3);">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-3">Reference 2 - Relative <span
+                                            class="text-danger">*</span></h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label">Relative Name</label>
+                                            <input type="text" class="form-control" id="relative1Name" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Mobile Number</label>
+                                            <input type="tel" class="form-control" id="relative1Mobile"
+                                                pattern="[0-9]{10}" placeholder="10-digit number" required>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="form-label">Address</label>
+                                            <textarea class="form-control" id="relative1Address" rows="2"
+                                                required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg px-5">
+                                <i class="bi bi-send"></i> Submit Application
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-primary text-white py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h4 class="mb-3"><i class="bi bi-building"></i> SRA</h4>
+                    <p>Siddhivinayak Realtors and Associates - Your trusted partner for all financial and real estate
+                        needs.</p>
+                    <div class="d-flex gap-3 mt-3">
+                        <a href="#" class="text-white fs-4"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white fs-4"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-white fs-4"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="text-white fs-4"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#home" class="text-white-50">Home</a></li>
+                        <li class="mb-2"><a href="#loans" class="text-white-50">Loans</a></li>
+                        <li class="mb-2"><a href="#properties" class="text-white-50">Properties</a></li>
+                        <li class="mb-2"><a href="#about" class="text-white-50">About</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h5 class="mb-3">Services</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#loans" class="text-white-50">Business Loan</a></li>
+                        <li class="mb-2"><a href="#loans" class="text-white-50">Home Loan</a></li>
+                        <li class="mb-2"><a href="#loans" class="text-white-50">Personal Loan</a></li>
+                        <li class="mb-2"><a href="#properties" class="text-white-50">Auction Properties</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h5 class="mb-3">Contact</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="bi bi-geo-alt me-2"></i>Pune, Maharashtra</li>
+                        <li class="mb-2"><i class="bi bi-telephone me-2"></i>+91 98765 43210</li>
+                        <li class="mb-2"><i class="bi bi-envelope me-2"></i>info@sra.com</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 bg-white">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2026 Siddhivinayak Realtors and Associates. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="js/auth.js"></script>
+    <script src="js/properties.js"></script>
+    <script src="js/loan-applications.js"></script>
+    <script src="js/meeting-schedule.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
