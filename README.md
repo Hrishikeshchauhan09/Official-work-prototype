@@ -47,7 +47,7 @@ A comprehensive, responsive website for banking loan services and bank-sealed au
 
 2. **Navigate** to the project directory:
    ```
-   cd sra-website
+   # No need to navigate to a subdirectory
    ```
 
 3. **Open** `index.html` in your web browser:
@@ -67,7 +67,7 @@ A comprehensive, responsive website for banking loan services and bank-sealed au
 ## 📁 Project Structure
 
 ```
-sra-website/
+Official-work-prototype/
 ├── index.html              # Main homepage
 ├── login.html              # Login page
 ├── register.html           # Registration page
