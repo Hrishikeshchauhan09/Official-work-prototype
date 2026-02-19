@@ -296,7 +296,7 @@ function loadMeetingsTable() {
     if (!tbody) return;
 
     if (meetings.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="11" class="text-center text-muted py-4"><i class="bi bi-calendar-x me-2"></i>No meeting requests found</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="12" class="text-center text-muted py-4"><i class="bi bi-calendar-x me-2"></i>No meeting requests found</td></tr>`;
         return;
     }
 
@@ -309,11 +309,27 @@ function loadMeetingsTable() {
 
         const confirmedInfo = m.status === 'confirmed'
             ? `${meetingManager.formatDate(m.confirmedDate)}<br><small>${m.confirmedTime}</small>${m.adminNote ? `<br><small class="text-muted">${m.adminNote}</small>` : ''}`
-            : '-';
+            : m.status === 'cancelled' && m.cancellationReason
+                ? `<small class="text-danger"><i class="bi bi-ban me-1"></i><strong>Reason:</strong> ${m.cancellationReason}</small><br><small class="text-muted">${m.cancelledAt ? meetingManager.formatDate(m.cancelledAt) : ''}</small>`
+                : '-';
+
+        // Build "type" column — show properties list for property-inquiry
+        let typeCell = '';
+        if (m.type === 'property-inquiry' && m.properties && m.properties.length > 0) {
+            const propList = m.properties.map(p =>
+                `<div class="badge bg-info text-dark mb-1 d-block text-start fw-normal" style="white-space:normal;">
+                    <i class="bi bi-building me-1"></i>${p.title}<br>
+                    <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>${p.location}</small>
+                </div>`
+            ).join('');
+            typeCell = `<td><span class="badge bg-warning text-dark mb-1">Property Inquiry</span>${propList}</td>`;
+        } else {
+            typeCell = `<td><span class="badge bg-info">${m.loanType}</span></td>`;
+        }
 
         const actions = m.status === 'pending'
             ? `<button class="btn btn-sm btn-success me-1" onclick="openConfirmMeeting(${m.id})" title="Confirm Meeting"><i class="bi bi-check-circle"></i></button>
-               <button class="btn btn-sm btn-warning me-1" onclick="cancelMeetingAdmin(${m.id})" title="Cancel"><i class="bi bi-x-circle"></i></button>`
+               <button class="btn btn-sm btn-warning me-1" onclick="openCancelMeeting(${m.id})" title="Cancel"><i class="bi bi-x-circle"></i></button>`
             : '';
         const deleteBtn = `<button class="btn btn-sm btn-danger" onclick="deleteMeetingAdmin(${m.id})" title="Delete"><i class="bi bi-trash"></i></button>`;
 
@@ -321,8 +337,9 @@ function loadMeetingsTable() {
             <td>${idx + 1}</td>
             <td><strong>${m.name}</strong><br><small class="text-muted">${m.email || ''}</small></td>
             <td>+91 ${m.phone}</td>
-            <td><span class="badge bg-info">${m.loanType}</span></td>
+            ${typeCell}
             <td>${m.loanAmount ? '₹' + Number(m.loanAmount).toLocaleString('en-IN') : '<span class="text-muted">—</span>'}</td>
+            <td>${m.location ? `<i class="bi bi-geo-alt-fill text-primary me-1"></i>${m.location}` : '<span class="text-muted">—</span>'}</td>
             <td>${meetingManager.formatDate(m.preferredDate)}</td>
             <td>${m.preferredTime}</td>
             <td>${m.employmentType || '-'}</td>
@@ -364,11 +381,29 @@ function saveConfirmMeeting() {
     }
 }
 
-function cancelMeetingAdmin(id) {
-    if (!confirm('Cancel this meeting request?')) return;
-    meetingManager.cancelMeeting(id);
-    loadMeetingsTable();
-    loadDashboard();
+function openCancelMeeting(id) {
+    document.getElementById('cancelMeetingId').value = id;
+    document.getElementById('cancelMeetingReason').value = '';
+    document.getElementById('cancelReasonError').classList.add('d-none');
+    const modal = new bootstrap.Modal(document.getElementById('cancelMeetingModal'));
+    modal.show();
+}
+
+function saveCancelMeeting() {
+    const id = parseInt(document.getElementById('cancelMeetingId').value);
+    const reason = document.getElementById('cancelMeetingReason').value.trim();
+
+    if (!reason) {
+        document.getElementById('cancelReasonError').classList.remove('d-none');
+        return;
+    }
+
+    const result = meetingManager.cancelMeeting(id, reason);
+    if (result.success) {
+        bootstrap.Modal.getInstance(document.getElementById('cancelMeetingModal')).hide();
+        loadMeetingsTable();
+        loadDashboard();
+    }
 }
 
 function deleteMeetingAdmin(id) {

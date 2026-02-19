@@ -568,8 +568,9 @@
                                 <th>#</th>
                                 <th>Client</th>
                                 <th>Phone</th>
-                                <th>Loan Type</th>
+                                <th>Type / Properties</th>
                                 <th>Loan Amount</th>
+                                <th>Location</th>
                                 <th>Pref. Date</th>
                                 <th>Pref. Time</th>
                                 <th>Employment</th>
@@ -742,6 +743,52 @@
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-success px-4" onclick="saveConfirmMeeting()">
                         <i class="bi bi-check-circle me-1"></i> Confirm Meeting
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════ CANCEL MEETING MODAL ══════════════════ -->
+    <div class="modal fade" id="cancelMeetingModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #b91c1c, #ef4444);">
+                    <h5 class="modal-title text-white">
+                        <i class="bi bi-x-octagon-fill me-2"></i>Cancel Meeting Request
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="cancelMeetingId">
+                    <div class="alert alert-warning d-flex align-items-start gap-2 mb-3" style="font-size:.85rem;">
+                        <i class="bi bi-shield-exclamation fs-5 mt-1"></i>
+                        <div>
+                            <strong>Required for security records.</strong><br>
+                            Cancellation reason <strong>must</strong> be provided. This will be permanently stored in
+                            company records for audit purposes.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            Cancellation Reason <span class="text-danger">*</span>
+                        </label>
+                        <textarea class="form-control" id="cancelMeetingReason" rows="4"
+                            placeholder="e.g. Client did not respond to follow-up calls, rescheduled to next month, duplicate request, property no longer available..."></textarea>
+                        <div id="cancelReasonError" class="d-none mt-2">
+                            <small class="text-danger">
+                                <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                                Cancellation reason is mandatory and cannot be left empty.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                        <i class="bi bi-arrow-left me-1"></i>Go Back
+                    </button>
+                    <button type="button" class="btn btn-danger px-4" onclick="saveCancelMeeting()">
+                        <i class="bi bi-x-octagon me-1"></i>Confirm Cancellation
                     </button>
                 </div>
             </div>
