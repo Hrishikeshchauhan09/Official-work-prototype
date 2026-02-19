@@ -1,207 +1,228 @@
 # Siddhivinayak Realtors and Associates (SRA) Website
 
-A comprehensive, responsive website for banking loan services and bank-sealed auction properties with a complete admin management system.
+A comprehensive, responsive website for banking loan services and bank-sealed auction properties, complete with a full admin management system, meeting scheduling, and a multi-property inquiry cart.
+
+---
 
 ## 🌟 Features
 
-### Public Website
+### 🏠 Public Website
 - **Hero Section** with glassmorphism effects and gradient backgrounds
-- **Loan Services** showcase (Business, Home, Personal loans)
-- **Property Listings** with filtering and search capabilities
-- **Responsive Design** compatible with all devices (mobile, tablet, desktop)
-- **Modern UI** with glass effects, smooth animations, and premium aesthetics
-- **Contact Form** for inquiries
+- **Loan Services** — Business Loan, Home Loan, Personal Loan, Mortgage Loan
+- **Bank-Sealed Auction Properties** with filtering by type, location, and price range
+- **Required Documents** section with visual guides
+- **About Us** & **Contact Form**
+- **Responsive Design** — mobile, tablet, desktop compatible
 
-### Authentication System
-- User registration and login
-- Session management using localStorage
-- Role-based access control (Admin/User)
+### 🔐 Authentication System
+- User registration and login (`login.html`, `register.html`)
+- Session management via `localStorage`
+- Role-based access control — **Admin** / **User**
+- Indian phone number validation (+91, 10-digit starting with 6–9)
 - Password strength indicator
-- Secure authentication flow
+- Property details **blurred** for non-logged-in visitors
 
-### Admin Panel
-- **Dashboard** with statistics and analytics
-- **Property Management** - Add, Edit, Delete properties
-- **Visibility Controls** - Toggle property visibility on website
-- **Featured Properties** - Mark properties as featured
-- **Image Management** - Add property images via URLs
-- **Real-time Updates** - Changes reflect immediately
+### 📅 Meeting Scheduling
+- Users can schedule a meeting directly from any loan service card
+- Form captures: Name, Phone, Email, **Location** (area-wise dropdown), Preferred Date & Time, Loan Amount, Employment Type, Message
+- **Location dropdown** grouped by city: Mumbai (25 areas), Navi Mumbai (15), Nashik (13), Pune (29)
+- Meetings stored in `localStorage` with status tracking
 
-## 🎨 Design Features
+### 🏢 Multi-Property Inquiry Cart
+- Logged-in users can select **up to 3 properties** for a single inquiry
+- **Floating "Inquire Selected" button** appears when 1+ properties are selected
+- **Property Inquiry Modal** shows selected properties + a full meeting scheduling form
+- Inquiry is submitted as a special `property-inquiry` type meeting
 
-- **Color Scheme**: Deep Blue (#1e3a8a), Gold (#f59e0b), Teal (#14b8a6)
-- **Glassmorphism Effects**: Frosted glass cards and overlays
-- **Responsive Grid**: Mobile-first design with Bootstrap 5.3
-- **Typography**: Poppins (headings) and Inter (body text)
-- **Animations**: Smooth transitions and scroll-based animations
+### 🗓️ My Meetings Tab (User-Side)
+- Dedicated **"My Meetings"** link in navbar — visible only for logged-in users
+- Shows all meeting requests (loan meetings + property inquiries) in card format
+- Status displayed clearly:
+  - ⏳ **Pending** — "Under review" notice
+  - ✅ **Confirmed** — Confirmed date, time, and admin note
+  - ❌ **Cancelled** — Cancellation reason + date
+- Clicking Home/Loans/etc restores the normal page view
 
-## 🚀 Getting Started
+### 🛠️ Admin Panel (`admin.html`)
+- **Dashboard** — Total properties, featured, visible, pending meetings count
+- **Property Management** — Add, Edit, Delete, toggle visibility & featured status
+- **Meeting Requests Table** — Shows all meetings with:
+  - Client name, phone, email
+  - Type (Loan Meeting or Property Inquiry with property list)
+  - Location, preferred date/time, employment type
+  - Status badges (Pending / Confirmed / Cancelled)
+  - Cancellation reason and date for cancelled meetings
+- **Confirm Meeting** — Admin picks a confirmed date/time and adds a note for the client
+- **Cancel Meeting** — Admin must provide a **mandatory cancellation reason** (stored permanently for audit/security records)
+- **Delete Meeting** — Permanently remove a meeting record
+- **Responsive sidebar** with mobile-friendly hamburger toggle
 
-### Prerequisites
-- A modern web browser (Chrome, Firefox, Edge, Safari)
-- No server required - runs entirely in the browser
-
-### Installation
-
-1. **Clone or download** the project to your local machine
-
-2. **Navigate** to the project directory:
-   ```
-   # No need to navigate to a subdirectory
-   ```
-
-3. **Open** `index.html` in your web browser:
-   - Double-click `index.html`, or
-   - Right-click → Open with → Your browser, or
-   - Use a local development server (recommended):
-     ```powershell
-     # Using Python
-     python -m http.server 8000
-     
-     # Using Node.js (http-server)
-     npx http-server
-     ```
-
-4. **Access** the website at `http://localhost:8000` (if using a server)
+---
 
 ## 📁 Project Structure
 
 ```
 Official-work-prototype/
-├── index.html              # Main homepage
+├── index.html              # Main homepage (all sections + modals)
 ├── login.html              # Login page
 ├── register.html           # Registration page
 ├── admin.html              # Admin dashboard
 ├── css/
-│   ├── main.css           # Core styles and design system
-│   ├── glassmorphism.css  # Glass effect utilities
-│   └── responsive.css     # Media queries
+│   ├── main.css            # Core styles and design system
+│   ├── glassmorphism.css   # Glass effect utilities
+│   └── responsive.css      # Media queries & responsiveness
 ├── js/
-│   ├── auth.js            # Authentication system
-│   ├── properties.js      # Property data management
-│   ├── main.js            # Main website logic
-│   └── admin.js           # Admin panel functionality
+│   ├── auth.js             # Authentication (login, register, session, role)
+│   ├── properties.js       # PropertyManager — CRUD, filtering, formatting
+│   ├── loan-applications.js# Loan application form logic
+│   ├── meeting-schedule.js # Meeting CRUD, My Meetings page, inquiry form
+│   ├── main.js             # Property cards, inquiry cart, nav logic
+│   └── admin.js            # Admin panel — tables, confirm/cancel/delete
 └── assets/
-    └── images/            # Logo and property images
+    └── images/             # Logo and static images
 ```
+
+---
 
 ## 🔐 Default Admin Credentials
 
-**Email**: admin@sra.com  
-**Password**: admin123
+| Field    | Value          |
+|----------|----------------|
+| Email    | admin@sra.com  |
+| Password | admin123       |
 
-> **Note**: Change these credentials in production!
+> ⚠️ **Change these credentials before any production use!**
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- A modern web browser (Chrome, Firefox, Edge, Safari)
+- No backend server required — runs entirely client-side
+
+### Run Locally
+
+```powershell
+# Option 1: Python
+python -m http.server 8000
+
+# Option 2: Node.js
+npx http-server
+
+# Then open: http://localhost:8000
+```
+
+Or simply double-click `index.html`.
+
+---
 
 ## 💻 Usage
 
-### For Visitors
+### For Visitors (Not Logged In)
+- View loan services and pricing
+- Browse properties (details blurred — login required to view full details)
+- Fill the Contact form
 
-1. **Browse Properties**: View featured bank-sealed auction properties on the homepage
-2. **Filter Properties**: Use the filter options to search by type, location, and price
-3. **Explore Loan Services**: Learn about Business, Home, and Personal loan offerings
-4. **Contact**: Fill out the contact form to get in touch
-5. **Register**: Create an account to save preferences (optional)
+### For Logged-In Users
+1. **View Properties** — Full details, auction dates, prices
+2. **Add to Inquiry Cart** — Select up to 3 properties → click "Inquire Selected" floating button → submit inquiry + meeting request
+3. **Schedule Meeting** — Click "Schedule Meeting" on any loan card → fill form with preferred location, date & time
+4. **My Meetings Tab** — Track all meeting/inquiry statuses in one place (Pending / Confirmed / Cancelled with reason)
 
 ### For Administrators
+1. **Login** → redirected to `admin.html`
+2. **Dashboard** — Quick stats overview
+3. **Manage Properties** — Add/Edit/Delete, toggle visibility and featured status
+4. **Meeting Requests** — View all meetings:
+   - **Confirm** → pick a date/time and add a note
+   - **Cancel** → must provide a written reason (saved to data for audit)
+   - **Delete** → permanently remove record
 
-1. **Login**: Use admin credentials to access the admin panel
-2. **Dashboard**: View statistics and recent properties
-3. **Manage Properties**:
-   - Click "Add Property" to create new listings
-   - Toggle visibility to show/hide properties on the website
-   - Mark properties as "Featured" to highlight them
-   - Edit or delete existing properties
-4. **Logout**: Securely logout when done
+---
 
 ## 🛠️ Technologies Used
 
-- **HTML5** - Semantic markup
-- **CSS3** - Custom properties, Flexbox, Grid
-- **JavaScript (ES6+)** - Modern vanilla JavaScript
-- **Bootstrap 5.3** - Responsive framework
-- **Bootstrap Icons** - Icon library
-- **Google Fonts** - Poppins & Inter
-- **LocalStorage API** - Data persistence
+| Technology | Purpose |
+|---|---|
+| HTML5 | Semantic markup |
+| CSS3 (Vanilla) | Custom design, Flexbox, Grid |
+| JavaScript ES6+ | All client-side logic |
+| Bootstrap 5.3 | Responsive layout & components |
+| Bootstrap Icons | Icon library |
+| Google Fonts (Poppins & Inter) | Typography |
+| LocalStorage API | Data persistence (no backend) |
 
-## 📱 Responsive Breakpoints
+---
 
-- **Mobile**: < 480px
-- **Small Tablet**: 481px - 768px
-- **Tablet**: 769px - 1024px
-- **Desktop**: 1025px - 1440px
-- **Large Desktop**: > 1441px
+## 🎨 Design System
 
-## 🎯 Key Features Explained
+- **Colors**: Deep Blue `#1e3a8a` · Gold `#f59e0b` · Teal `#14b8a6`
+- **Effects**: Glassmorphism — frosted glass cards with `backdrop-filter: blur`
+- **Fonts**: Poppins (headings), Inter (body)
+- **Animations**: Fade-in on scroll, hover lifts, smooth transitions
 
-### Glassmorphism Effects
-Modern frosted glass UI elements with backdrop blur for a premium look and feel.
+### Responsive Breakpoints
+| Breakpoint | Range |
+|---|---|
+| Mobile | < 480px |
+| Small Tablet | 481px – 768px |
+| Tablet | 769px – 1024px |
+| Desktop | 1025px – 1440px |
+| Large Desktop | > 1441px |
 
-### Dynamic Property Management
-Admin can add, edit, delete, and control visibility of properties in real-time without any backend.
+---
 
-### LocalStorage Database
-All data (users, properties, sessions) is stored in browser localStorage for demonstration purposes.
+## 💾 Data Storage (localStorage Keys)
 
-### Responsive Navigation
-Mobile-friendly hamburger menu that transforms into a full navigation bar on larger screens.
+| Key | Contents |
+|---|---|
+| `sra_users` | Registered users array |
+| `sra_session` | Currently logged-in user session |
+| `sra_properties` | Property listings |
+| `sra_meetings` | All meeting requests (loan + property inquiry) |
 
-### Property Filtering
-Real-time filtering by property type, location, and price range.
+Each meeting record includes:
+```json
+{
+  "id": 1708000000000,
+  "type": "loan-meeting | property-inquiry",
+  "status": "pending | confirmed | cancelled",
+  "name": "...", "phone": "...", "email": "...",
+  "location": "Baner, Pune",
+  "preferredDate": "2026-03-01",
+  "preferredTime": "10:00 AM - 11:00 AM",
+  "properties": [...],
+  "confirmedDate": "...", "confirmedTime": "...", "adminNote": "...",
+  "cancellationReason": "...", "cancelledAt": "...", "cancelledBy": "admin",
+  "submittedAt": "2026-02-19T21:00:00.000Z"
+}
+```
 
-## ⚠️ Important Notes
+---
 
-### For Production Use
+## ⚠️ Production Considerations
 
-This is a **client-side only** implementation suitable for:
-- Demonstrations
-- Prototypes
-- Learning projects
+This is a **client-side prototype** intended for demonstrations. For production:
 
-For production deployment, you should:
+- Replace `localStorage` with a real database (MySQL, MongoDB, PostgreSQL)
+- Implement server-side authentication (JWT / OAuth)
+- Hash passwords (bcrypt / argon2)
+- Add CSRF protection, rate limiting, HTTPS
+- Host images on cloud storage (AWS S3, Cloudinary)
+- Add email/SMS notifications for meeting confirmations
 
-1. **Backend Integration**
-   - Replace localStorage with a proper database (MySQL, MongoDB, PostgreSQL)
-   - Implement server-side authentication (JWT, OAuth)
-   - Add API endpoints for CRUD operations
-
-2. **Security Enhancements**
-   - Hash passwords (bcrypt, argon2)
-   - Implement CSRF protection
-   - Add rate limiting
-   - Use HTTPS
-
-3. **Image Hosting**
-   - Upload images to cloud storage (AWS S3, Cloudinary)
-   - Implement image optimization
-   - Add CDN for faster delivery
-
-4. **Additional Features**
-   - Email notifications
-   - Payment gateway integration
-   - Advanced search and filters
-   - User dashboard
-   - Property comparison
-   - Saved favorites
-
-## 🐛 Known Limitations
-
-- Data is stored in browser localStorage (cleared when browser cache is cleared)
-- No actual backend server or database
-- Images are loaded from external URLs (Unsplash)
-- No email functionality
-- Single admin account (hardcoded)
+---
 
 ## 📄 License
 
-This project is created for demonstration purposes. Feel free to use and modify as needed.
+Created for Siddhivinayak Realtors and Associates. Free to use and modify for business purposes.
 
 ## 👥 Contact
 
 **Siddhivinayak Realtors and Associates**  
-Email: info@sra.com  
-Phone: +91 98765 43210  
-Location: Pune, Maharashtra
+📧 info@sra.com · 📞 +91 98765 43210 · 📍 Pune, Maharashtra
 
 ---
 
-**Built with ❤️ for SRA - Your trusted partner in financial solutions and real estate investments**
+*Built with ❤️ — Your trusted partner in financial solutions and real estate investments*
