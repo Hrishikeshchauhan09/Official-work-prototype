@@ -85,10 +85,10 @@ function openScheduleMeeting(loanType) {
     if (successMsg) successMsg.classList.add('d-none');
     if (formContainer) formContainer.classList.remove('d-none');
 
-    // Pre-select loan type
-    const loanTypeSelect = document.getElementById('meetingLoanType');
-    if (loanTypeSelect && loanType) {
-        loanTypeSelect.value = loanType;
+    // Pre-fill loan type (readonly input)
+    const loanTypeInput = document.getElementById('meetingLoanType');
+    if (loanTypeInput) {
+        loanTypeInput.value = loanType || 'General Enquiry';
     }
 
     // Set minimum date to today

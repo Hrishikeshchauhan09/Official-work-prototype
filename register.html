@@ -270,10 +270,10 @@
             const result = auth.register(name, email, password, phone);
 
             if (result.success) {
-                showAlert('Registration successful! Redirecting...', 'success');
+                showAlert('Registration successful! Please login to continue.', 'success');
 
                 setTimeout(() => {
-                    window.location.href = 'index.html';
+                    window.location.href = 'login.html';
                 }, 1500);
             } else {
                 showAlert(result.message, 'danger');

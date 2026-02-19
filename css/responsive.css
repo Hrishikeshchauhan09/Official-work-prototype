@@ -1,194 +1,443 @@
 /* ===================================
-   Responsive Design - Mobile First
+   SRA - Comprehensive Responsive CSS
+   Mobile-first approach
    =================================== */
 
-/* Mobile Styles (Default - up to 480px) */
-h1 {
-    font-size: 2rem;
+/* ===================================
+   BASE MOBILE RESETS (all screens)
+   =================================== */
+*, *::before, *::after { box-sizing: border-box; }
+
+body { overflow-x: hidden; -webkit-text-size-adjust: 100%; }
+
+img { max-width: 100%; height: auto; }
+
+/* Prevent text from being too small on mobile */
+input, select, textarea, button { font-size: 16px !important; }
+
+/* Minimum tap target size */
+button, a, .btn, .nav-link, select, input[type="checkbox"], input[type="radio"] {
+    min-height: 44px;
+}
+input[type="checkbox"], input[type="radio"] {
+    width: 20px; height: 20px; min-height: 20px;
 }
 
-h2 {
-    font-size: 1.75rem;
+/* ===================================
+   TYPOGRAPHY - MOBILE FIRST
+   =================================== */
+h1 { font-size: 1.75rem; line-height: 1.2; }
+h2 { font-size: 1.5rem;  line-height: 1.25; }
+h3 { font-size: 1.3rem; }
+h4 { font-size: 1.15rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.9rem; }
+
+@media (min-width: 576px) {
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.9rem; }
+    h3 { font-size: 1.6rem; }
+    h4 { font-size: 1.3rem; }
 }
 
-h3 {
-    font-size: 1.5rem;
+@media (min-width: 768px) {
+    h1 { font-size: 2.75rem; }
+    h2 { font-size: 2.25rem; }
+    h3 { font-size: 1.85rem; }
+    h4 { font-size: 1.5rem; }
 }
 
-h4 {
-    font-size: 1.25rem;
-}
-
-.section {
-    padding: var(--spacing-xl) 0;
-}
-
-/* Small Tablets (481px - 768px) */
-@media (min-width: 481px) {
-    h1 {
-        font-size: 2.5rem;
-    }
-
-    h2 {
-        font-size: 2rem;
-    }
-
-    h3 {
-        font-size: 1.75rem;
-    }
-}
-
-/* Tablets (769px - 1024px) */
-@media (min-width: 769px) {
-    h1 {
-        font-size: 3rem;
-    }
-
-    h2 {
-        font-size: 2.5rem;
-    }
-
-    h3 {
-        font-size: 2rem;
-    }
-
-    .section {
-        padding: var(--spacing-2xl) 0;
-    }
-}
-
-/* Desktop (1025px - 1440px) */
 @media (min-width: 1025px) {
-    h1 {
-        font-size: 3.5rem;
-    }
-
-    h2 {
-        font-size: 2.75rem;
-    }
+    h1 { font-size: 3.5rem; }
+    h2 { font-size: 2.75rem; }
+    h3 { font-size: 2rem; }
+    h4 { font-size: 1.5rem; }
 }
 
-/* Large Desktop (1441px+) */
-@media (min-width: 1441px) {
-    .container {
-        max-width: 1320px;
+/* ===================================
+   NAVIGATION - MOBILE
+   =================================== */
+.navbar {
+    padding: 0.6rem 1rem;
+}
+.navbar-brand {
+    font-size: 1.1rem;
+}
+@media (max-width: 991px) {
+    .navbar-collapse {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 1rem;
+        border-radius: 12px;
+        margin-top: 0.5rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        border: 1px solid rgba(255,255,255,0.3);
+    }
+    .navbar-collapse .nav-link {
+        color: #1e3a8a !important;
+        padding: 0.65rem 0.75rem !important;
+        border-radius: 8px;
+        font-weight: 500;
+    }
+    .navbar-collapse .nav-link:hover {
+        background: #eff6ff;
+    }
+    .navbar-collapse .btn {
+        width: 100%;
+        margin-top: 0.5rem;
+        text-align: center;
     }
 }
 
 /* ===================================
-   Component Responsive Adjustments
+   HERO SECTION - MOBILE
+   =================================== */
+@media (max-width: 767px) {
+    .hero-section {
+        min-height: auto !important;
+        padding: 100px 0 60px !important;
+        text-align: center;
+    }
+    .hero-section h1 {
+        font-size: 1.9rem !important;
+        margin-bottom: 1rem !important;
+    }
+    .hero-section .lead {
+        font-size: 0.95rem;
+    }
+    .hero-section .d-flex.gap-3 {
+        flex-direction: column;
+        align-items: center;
+    }
+    .hero-section .btn {
+        width: 100%;
+        max-width: 280px;
+    }
+    .hero-section .col-lg-6.mt-5 {
+        margin-top: 2rem !important;
+    }
+    .hero-section .glass-card-dark {
+        padding: 1.5rem !important;
+    }
+}
+
+/* ===================================
+   SECTION SPACING - MOBILE
+   =================================== */
+.section { padding: 3rem 0; }
+
+@media (min-width: 768px) {
+    .section { padding: 4rem 0; }
+}
+
+.section-title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+@media (min-width: 768px) {
+    .section-title { font-size: 2rem; margin-bottom: 2.5rem; }
+}
+
+/* ===================================
+   LOAN CARDS - MOBILE
+   =================================== */
+@media (max-width: 575px) {
+    #loans .col-md-6 {
+        margin-bottom: 1rem;
+    }
+    .glass-card {
+        padding: 1.2rem !important;
+    }
+    .glass-card .display-3 {
+        font-size: 2.5rem !important;
+    }
+}
+
+/* ===================================
+   PROPERTY CARDS - MOBILE
+   =================================== */
+.property-card img {
+    height: 200px;
+    object-fit: cover;
+}
+
+@media (min-width: 576px) {
+    .property-card img { height: 220px; }
+}
+
+@media (min-width: 992px) {
+    .property-card img { height: 250px; }
+}
+
+.property-card-body { padding: 1rem; }
+
+@media (max-width: 575px) {
+    .property-price { font-size: 1.2rem; }
+    .property-title { font-size: 1rem; }
+    .property-location { font-size: 0.85rem; }
+}
+
+/* Filter row scroll on mobile */
+@media (max-width: 767px) {
+    #properties .glass-card .row {
+        flex-wrap: wrap;
+    }
+    #properties .glass-card .row .col-md-3,
+    #properties .glass-card .row .col-md-2 {
+        min-width: 100%;
+    }
+}
+
+/* ===================================
+   DOCUMENTS SECTION - MOBILE
+   =================================== */
+@media (max-width: 767px) {
+    #documents .col-md-6 {
+        margin-bottom: 1rem;
+    }
+    #documents ol, #documents ul {
+        padding-left: 1.2rem;
+    }
+    #documents li {
+        font-size: 0.875rem;
+        margin-bottom: 0.3rem;
+    }
+}
+
+/* ===================================
+   CONTACT SECTION - MOBILE
+   =================================== */
+@media (max-width: 767px) {
+    #contact .col-lg-4 { margin-bottom: 1rem; }
+    #contact .glass-card { padding: 1.25rem; }
+    .glass-container { padding: 1.25rem; }
+}
+
+/* ===================================
+   SCHEDULE MEETING MODAL - MOBILE
+   =================================== */
+@media (max-width: 575px) {
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+    .modal-dialog.modal-lg, .modal-dialog.modal-xl {
+        max-width: calc(100% - 1rem);
+    }
+    .modal-body { padding: 1rem; }
+    .modal-header { padding: 0.85rem 1rem; }
+    .modal-footer { padding: 0.75rem 1rem; }
+    #scheduleMeetingForm .row.g-3 > .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    #loanApplicationForm .row.g-3 > [class*="col-md"] {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+/* ===================================
+   BUTTONS - MOBILE
+   =================================== */
+@media (max-width: 575px) {
+    /* Only full-width buttons in certain contexts */
+    .hero-section .btn { width: 100%; }
+
+    /* Don't override all buttons globally */
+    .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem !important;
+    }
+    .btn-lg { padding: 0.8rem 1.4rem; font-size: 1rem !important; }
+}
+
+/* Touch-friendly sizing */
+@media (hover: none) and (pointer: coarse) {
+    .btn, .nav-link, select, .form-select {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .form-control, .form-select {
+        padding: 0.75rem 1rem;
+        font-size: 16px !important;
+    }
+    .glass-input {
+        padding: 0.85rem 1rem;
+        font-size: 16px !important;
+    }
+}
+
+/* ===================================
+   GLASS EFFECTS - MOBILE
+   =================================== */
+@media (max-width: 767px) {
+    .glass-card { padding: 1.25rem; }
+    .glass-card-dark { padding: 1.5rem; }
+    .glass-container { padding: 1.25rem; }
+}
+
+/* ===================================
+   ABOUT SECTION - MOBILE
+   =================================== */
+@media (max-width: 991px) {
+    #about .col-lg-6.mt-5 { margin-top: 2rem !important; }
+    #about .row.g-3 .col-6 { margin-bottom: 0.75rem; }
+}
+
+/* ===================================
+   FOOTER/NAVBAR FIX
+   =================================== */
+@media (max-width: 575px) {
+    .navbar { padding: 0.5rem 0.75rem; }
+    .navbar-brand { font-size: 1rem; }
+    .navbar-toggler { padding: 0.3rem 0.5rem; }
+}
+
+/* ===================================
+   ADMIN PANEL - COMPLETE MOBILE OVERHAUL
    =================================== */
 
-/* Property Cards */
-@media (max-width: 768px) {
-    .property-card img {
-        height: 200px;
-    }
-
-    .property-card-body {
-        padding: var(--spacing-sm);
-    }
-
-    .property-price {
-        font-size: 1.25rem;
-    }
-
-    .property-title {
-        font-size: 1.1rem;
-    }
+/* Mobile sidebar toggle button */
+.admin-mob-toggle {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2000;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 20px rgba(30,58,138,.4);
+    font-size: 1.3rem;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform .2s;
 }
+.admin-mob-toggle:hover { transform: scale(1.08); }
 
-/* Navigation */
-@media (max-width: 991px) {
-    .navbar-collapse {
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(15px);
-        padding: var(--spacing-md);
-        border-radius: var(--radius-lg);
-        margin-top: var(--spacing-sm);
-        box-shadow: var(--shadow-lg);
-    }
+/* Overlay behind sidebar on mobile */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: 1039;
+    backdrop-filter: blur(2px);
 }
+.sidebar-overlay.active { display: block; }
 
-/* Hero Section */
-@media (max-width: 768px) {
-    .hero-section {
-        min-height: 60vh;
-        padding: var(--spacing-xl) 0;
+@media (max-width: 900px) {
+    /* Header adjustments */
+    .admin-header {
+        padding: 0 1rem;
+        flex-wrap: wrap;
     }
+    .admin-header .brand { font-size: 1rem; }
+    .admin-header .admin-meta { display: none; }
+    .admin-header .btn { font-size: .75rem !important; padding: .35rem .65rem; min-height: 36px; }
 
-    .hero-title {
-        font-size: 2rem;
-    }
-
-    .hero-subtitle {
-        font-size: 1rem;
-    }
-}
-
-/* Forms */
-@media (max-width: 576px) {
-
-    .btn-primary,
-    .btn-gold,
-    .btn-outline-primary {
-        width: 100%;
-        margin-bottom: var(--spacing-sm);
-    }
-}
-
-/* Admin Panel */
-@media (max-width: 768px) {
+    /* Sidebar: off-canvas on mobile */
     .admin-sidebar {
-        position: static;
-        width: 100%;
-        margin-bottom: var(--spacing-md);
+        position: fixed;
+        left: -280px;
+        top: var(--header-height, 64px);
+        width: 260px !important;
+        transition: left .28s cubic-bezier(.4,0,.2,1);
+        box-shadow: 4px 0 24px rgba(0,0,0,.18);
+        z-index: 1040;
     }
+    .admin-sidebar.open { left: 0; }
 
-    .admin-content {
-        margin-left: 0;
-    }
-
-    .table-responsive {
-        font-size: 0.875rem;
-    }
-}
-
-/* Glass Effects on Mobile */
-@media (max-width: 768px) {
-
-    .glass-card,
-    .glass-card-dark {
-        padding: var(--spacing-md);
-    }
-
-    .glass-container {
-        padding: var(--spacing-md);
-    }
-}
-
-/* Grid Adjustments */
-@media (max-width: 576px) {
-    .row>* {
-        margin-bottom: var(--spacing-md);
-    }
-}
-
-/* Touch-friendly spacing */
-@media (hover: none) and (pointer: coarse) {
-
-    .btn-primary,
-    .btn-gold,
-    .btn-outline-primary,
-    .glass-btn {
-        padding: 1rem 2rem;
-        min-height: 48px;
-    }
-
-    .form-control,
-    .glass-input {
+    /* Main content occupies full width */
+    .admin-main {
+        margin-left: 0 !important;
         padding: 1rem;
-        font-size: 16px;
-        /* Prevents zoom on iOS */
     }
+
+    /* Show toggle button on mobile */
+    .admin-mob-toggle { display: flex; }
+
+    /* Page titles */
+    .page-title { font-size: 1.1rem; }
+
+    /* Stat cards: 2 per row on tablet */
+    .admin-main .row.g-3 .col-sm-6 { flex: 0 0 50%; max-width: 50%; }
+    .stat-card { padding: 1rem; }
+    .stat-icon { width: 42px; height: 42px; font-size: 1.2rem; }
+    .stat-value { font-size: 1.4rem; }
+    .stat-label { font-size: .7rem; }
+}
+
+@media (max-width: 575px) {
+    /* Stat cards: 1 per row on phone */
+    .admin-main .row.g-3 .col-sm-6 { flex: 0 0 100%; max-width: 100%; }
+    .stat-card { padding: 0.85rem 1rem; }
+
+    /* Content card headers stack */
+    .content-card-header {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: .6rem;
+    }
+    .content-card-header select { width: 100% !important; }
+
+    /* Status bar chips */
+    .status-bar { gap: .4rem; }
+    .status-chip { font-size: .7rem; padding: .25rem .5rem; }
+
+    /* Forms in add-property */
+    .content-card-body .row.g-3 > [class*="col-md"] {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .content-card-body .row.g-3 > .col-md-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    /* Admin action buttons margin */
+    .content-card-body .d-flex.gap-2 { flex-direction: column; }
+    .content-card-body .d-flex.gap-2 .btn { width: 100%; }
+
+    /* Modal forms */
+    .modal-dialog { margin: .4rem; }
+    .modal-body .row.g-3 > [class*="col-md"] { flex: 0 0 100%; max-width: 100%; }
+}
+
+/* Table horizontal scroll on mobile */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+@media (max-width: 767px) {
+    .table { font-size: .78rem; min-width: 650px; }
+    .table thead th { padding: .5rem .6rem; font-size: .65rem; }
+    .table tbody td { padding: .5rem .6rem; }
+    .action-btn { padding: .25rem .4rem; font-size: .75rem; }
+    .property-image-small { width: 38px; height: 38px; }
+}
+
+/* ===================================
+   LOGIN / REGISTER PAGES - MOBILE
+   =================================== */
+@media (max-width: 575px) {
+    .auth-page { padding: 1rem 0; }
+    .glass-container { padding: 1.5rem 1rem; }
+    .auth-page h2 { font-size: 1.4rem; }
+    .auth-page .input-group { flex-wrap: nowrap; }
+    .auth-page .input-group .btn { font-size: 0.85rem !important; min-height: auto; }
+}
+
+/* ===================================
+   LARGE DESKTOP
+   =================================== */
+@media (min-width: 1441px) {
+    .container { max-width: 1320px; }
 }

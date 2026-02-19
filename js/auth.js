@@ -63,12 +63,8 @@ class AuthSystem {
     users.push(newUser);
     localStorage.setItem('sra_users', JSON.stringify(users));
 
-    // Auto login
-    this.currentUser = { ...newUser };
-    delete this.currentUser.password; // Don't store password in session
-    localStorage.setItem('sra_session', JSON.stringify(this.currentUser));
-
-    return { success: true, message: 'Registration successful', user: this.currentUser };
+    // Do NOT auto-login. User must login manually after registration.
+    return { success: true, message: 'Registration successful' };
   }
 
   // Login user

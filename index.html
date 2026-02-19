@@ -347,9 +347,9 @@
                         <h5 class="mb-2">Need Help with Documents?</h5>
                         <p class="text-muted mb-4">Our experts will guide you through the entire documentation process.
                             Schedule a meeting and we'll assist you step by step.</p>
-                        <button class="btn btn-primary" onclick="openScheduleMeeting('')">
-                            <i class="bi bi-calendar-check me-2"></i>Schedule a Meeting
-                        </button>
+                        <a href="#contact" class="btn btn-primary">
+                            <i class="bi bi-telephone-fill me-2"></i>Contact Us
+                        </a>
                     </div>
                 </div>
             </div>
@@ -526,14 +526,8 @@
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label class="form-label">Loan Type <span class="text-danger">*</span></label>
-                                    <select class="form-select" id="meetingLoanType" required>
-                                        <option value="">Select Loan Type</option>
-                                        <option value="Home Loan">Home Loan</option>
-                                        <option value="Business Loan">Business Loan</option>
-                                        <option value="Personal Loan">Personal Loan</option>
-                                        <option value="Mortgage Loan">Mortgage Loan (LAP)</option>
-                                        <option value="BT Top-up">BT Top-up</option>
-                                    </select>
+                                    <input type="text" class="form-control" id="meetingLoanType" readonly
+                                        style="background-color: #e9ecef; cursor: not-allowed;">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Full Name <span class="text-danger">*</span></label>

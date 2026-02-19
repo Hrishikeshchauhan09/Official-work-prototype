@@ -26,361 +26,701 @@
     <link rel="stylesheet" href="css/responsive.css">
 
     <style>
+        :root {
+            --sidebar-width: 260px;
+            --header-height: 64px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background: var(--gray-100);
+            background: #f0f4f8;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
         }
 
+        /* ── HEADER ── */
         .admin-header {
-            background: var(--gradient-primary);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 60%, #14b8a6 100%);
             color: white;
-            padding: 1rem 0;
-            box-shadow: var(--shadow-md);
+            z-index: 1050;
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            box-shadow: 0 4px 20px rgba(30, 58, 138, .35);
         }
 
+        .admin-header .brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: .3px;
+        }
+
+        .admin-header .brand i {
+            margin-right: .4rem;
+        }
+
+        .admin-header .admin-meta {
+            font-size: .8rem;
+            opacity: .8;
+        }
+
+        /* ── SIDEBAR ── */
         .admin-sidebar {
-            background: white;
-            min-height: calc(100vh - 70px);
-            box-shadow: var(--shadow-md);
-            padding: 1.5rem;
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: #fff;
+            box-shadow: 2px 0 16px rgba(0, 0, 0, .07);
+            overflow-y: auto;
+            z-index: 1040;
+            display: flex;
+            flex-direction: column;
         }
 
-        .admin-content {
+        .sidebar-brand-area {
+            padding: 1.5rem 1.25rem 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .sidebar-brand-area h6 {
+            font-size: .7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            margin-bottom: .75rem;
+        }
+
+        .sidebar-nav {
+            padding: .75rem 0;
+            flex: 1;
+        }
+
+        .sidebar-nav .nav-item {
+            padding: 0 .75rem;
+            margin-bottom: .2rem;
+        }
+
+        .sidebar-nav .nav-link {
+            display: flex;
+            align-items: center;
+            gap: .65rem;
+            padding: .65rem .9rem;
+            border-radius: 10px;
+            color: #475569;
+            font-size: .875rem;
+            font-weight: 500;
+            transition: all .18s;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .sidebar-nav .nav-link i {
+            font-size: 1.1rem;
+            width: 1.2rem;
+            text-align: center;
+        }
+
+        .sidebar-nav .nav-link:hover {
+            background: #eff6ff;
+            color: #1e40af;
+        }
+
+        .sidebar-nav .nav-link.active {
+            background: linear-gradient(135deg, #dbeafe, #eff6ff);
+            color: #1e40af;
+            font-weight: 600;
+            box-shadow: inset 3px 0 0 #1e40af;
+        }
+
+        .sidebar-nav .nav-link .badge-pill {
+            margin-left: auto;
+            font-size: .65rem;
+        }
+
+        .sidebar-footer {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        /* ── MAIN CONTENT ── */
+        .admin-main {
+            margin-left: var(--sidebar-width);
+            margin-top: var(--header-height);
             padding: 2rem;
+            min-height: calc(100vh - var(--header-height));
         }
 
+        /* ── PAGE TITLE ── */
+        .page-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+        }
+
+        .page-title i {
+            color: #2563eb;
+        }
+
+        /* ── STAT CARDS ── */
         .stat-card {
-            background: white;
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            box-shadow: var(--shadow-md);
-            border-left: 4px solid var(--primary-blue);
-            transition: var(--transition-base);
+            background: #fff;
+            border-radius: 14px;
+            padding: 1.4rem 1.5rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, .07);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: transform .2s, box-shadow .2s;
         }
 
         .stat-card:hover {
             transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .11);
         }
 
-        .stat-card.gold {
-            border-left-color: var(--secondary-gold);
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
         }
 
-        .stat-card.teal {
-            border-left-color: var(--accent-teal);
+        .stat-icon.blue {
+            background: #dbeafe;
+            color: #1d4ed8;
         }
 
-        .property-table {
-            background: white;
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            box-shadow: var(--shadow-md);
+        .stat-icon.gold {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .stat-icon.teal {
+            background: #ccfbf1;
+            color: #0d9488;
+        }
+
+        .stat-icon.orange {
+            background: #fed7aa;
+            color: #c2410c;
+        }
+
+        .stat-label {
+            font-size: .75rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.1;
+        }
+
+        /* ── CONTENT CARD ── */
+        .content-card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, .07);
+            overflow: hidden;
+        }
+
+        .content-card-header {
+            padding: 1.1rem 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fafbfc;
+        }
+
+        .content-card-header h5 {
+            margin: 0;
+            font-size: .95rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .content-card-body {
+            padding: 1.25rem 1.5rem;
+        }
+
+        /* ── TABLES ── */
+        .table {
+            font-size: .82rem;
+        }
+
+        .table thead th {
+            background: #f8fafc;
+            color: #64748b;
+            font-weight: 600;
+            font-size: .72rem;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            border-bottom: 2px solid #e2e8f0;
+            padding: .75rem 1rem;
+            white-space: nowrap;
+        }
+
+        .table tbody td {
+            padding: .75rem 1rem;
+            vertical-align: middle;
+            border-color: #f1f5f9;
+        }
+
+        .table tbody tr:hover {
+            background: #f8fafc;
         }
 
         .property-image-small {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             object-fit: cover;
-            border-radius: var(--radius-md);
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
         }
 
+        /* ── BADGES ── */
+        .badge {
+            font-size: .7rem;
+            padding: .35em .65em;
+            border-radius: 6px;
+        }
+
+        /* ── STATUS SUMMARY BAR ── */
+        .status-bar {
+            display: flex;
+            gap: .6rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .status-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: .3rem;
+            padding: .3rem .65rem;
+            border-radius: 20px;
+            font-size: .75rem;
+            font-weight: 600;
+        }
+
+        .status-chip.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-chip.confirmed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-chip.cancelled {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        /* ── FORMS ── */
+        .form-section-label {
+            font-size: .7rem;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            font-weight: 700;
+            color: #94a3b8;
+            margin-bottom: .75rem;
+            padding-bottom: .4rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 8px;
+            border-color: #e2e8f0;
+            font-size: .875rem;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, .12);
+        }
+
+        /* ── MODAL ── */
         .modal-header {
-            background: var(--gradient-primary);
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
             color: white;
+            border-bottom: none;
+        }
+
+        .modal-header .modal-title {
+            font-size: 1rem;
+        }
+
+        /* ── ACTION BUTTONS ── */
+        .action-btn {
+            padding: .3rem .5rem;
+            border-radius: 7px;
+            font-size: .8rem;
+        }
+
+        /* ── SCROLLBAR ── */
+        .admin-sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .admin-sidebar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        /* ── MOBILE SIDEBAR OVERRIDE (must be in this style block to beat responsive.css load order) ── */
+        @media (max-width: 900px) {
+            .admin-sidebar {
+                left: -280px;
+                transition: left .28s cubic-bezier(.4, 0, .2, 1) !important;
+            }
+
+            .admin-sidebar.open {
+                left: 0;
+            }
+
+            .admin-main {
+                margin-left: 0 !important;
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Admin Header -->
+    <!-- ══════════════════ HEADER ══════════════════ -->
     <header class="admin-header">
-        <div class="container-fluid">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h4 class="mb-0"><i class="bi bi-building"></i> SRA Admin Panel</h4>
-                </div>
-                <div>
-                    <span class="me-3" id="adminName"></span>
-                    <a href="index.html" class="btn btn-light btn-sm me-2">
-                        <i class="bi bi-house"></i> View Website
-                    </a>
-                    <button class="btn btn-outline-light btn-sm" onclick="handleLogout()">
-                        <i class="bi bi-box-arrow-right"></i> Logout
-                    </button>
-                </div>
-            </div>
+        <div class="d-flex align-items-center me-auto gap-3">
+            <span class="brand"><i class="bi bi-buildings-fill"></i> SRA Admin</span>
+            <span class="vr opacity-25"></span>
+            <span class="admin-meta" id="adminName"></span>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <a href="index.html" class="btn btn-sm btn-light d-flex align-items-center gap-1" style="font-size:.8rem;">
+                <i class="bi bi-globe2"></i> View Website
+            </a>
+            <button class="btn btn-sm btn-outline-light d-flex align-items-center gap-1" onclick="handleLogout()"
+                style="font-size:.8rem;">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </button>
         </div>
     </header>
 
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-2 admin-sidebar">
-                <nav class="nav flex-column">
-                    <a class="nav-link active" href="#" onclick="showSection('dashboard')">
-                        <i class="bi bi-speedometer2"></i> Dashboard
-                    </a>
-                    <a class="nav-link" href="#" onclick="showSection('meetings')">
-                        <i class="bi bi-calendar-check"></i> Meeting Requests
-                    </a>
-                    <a class="nav-link" href="#" onclick="showSection('properties')">
-                        <i class="bi bi-building"></i> Properties
-                    </a>
-                    <a class="nav-link" href="#" onclick="showSection('addProperty')">
-                        <i class="bi bi-plus-circle"></i> Add Property
-                    </a>
-                </nav>
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
+
+    <!-- Mobile Sidebar Toggle FAB -->
+    <button class="admin-mob-toggle" id="sidebarToggleBtn" onclick="toggleMobileSidebar()" aria-label="Open Menu">
+        <i class="bi bi-layout-sidebar" id="sidebarToggleIcon"></i>
+    </button>
+
+    <!-- ══════════════════ SIDEBAR ══════════════════ -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="sidebar-brand-area">
+            <h6>Navigation</h6>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-item">
+                <a class="nav-link active" onclick="showSection('dashboard', this)">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" onclick="showSection('meetings', this)">
+                    <i class="bi bi-calendar-check"></i> Meeting Requests
+                    <span class="badge badge-pill bg-warning text-dark" id="sidebarMeetingBadge"></span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" onclick="showSection('properties', this)">
+                    <i class="bi bi-building"></i> Properties
+                </a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" onclick="showSection('addProperty', this)">
+                    <i class="bi bi-plus-circle"></i> Add Property
+                </a>
+            </div>
+        </nav>
+        <div class="sidebar-footer text-muted" style="font-size:.72rem;">
+            <i class="bi bi-shield-lock me-1"></i> Secured Admin Portal &copy; SRA 2025
+        </div>
+    </aside>
+
+    <!-- ══════════════════ MAIN CONTENT ══════════════════ -->
+    <main class="admin-main">
+
+        <!-- ── DASHBOARD ── -->
+        <div id="dashboardSection">
+            <div class="page-title"><i class="bi bi-speedometer2"></i> Dashboard Overview</div>
+            <div class="row g-3 mb-4">
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><i class="bi bi-building"></i></div>
+                        <div>
+                            <div class="stat-label">Total Properties</div>
+                            <div class="stat-value" id="totalProperties">0</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon gold"><i class="bi bi-star-fill"></i></div>
+                        <div>
+                            <div class="stat-label">Featured</div>
+                            <div class="stat-value" id="featuredProperties">0</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon teal"><i class="bi bi-eye-fill"></i></div>
+                        <div>
+                            <div class="stat-label">Visible</div>
+                            <div class="stat-value" id="visibleProperties">0</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon orange"><i class="bi bi-calendar-check"></i></div>
+                        <div>
+                            <div class="stat-label">Pending Meetings</div>
+                            <div class="stat-value" id="pendingMeetingsCount">0</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Main Content -->
-            <div class="col-md-10 admin-content">
-
-                <!-- Dashboard Section -->
-                <div id="dashboardSection">
-                    <h2 class="mb-4">Dashboard Overview</h2>
-
-                    <div class="row g-4 mb-4">
-                        <div class="col-md-3">
-                            <div class="stat-card">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <p class="text-muted mb-1">Total Properties</p>
-                                        <h3 class="mb-0" id="totalProperties">0</h3>
-                                    </div>
-                                    <i class="bi bi-building display-4 text-primary-blue"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stat-card gold">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <p class="text-muted mb-1">Featured</p>
-                                        <h3 class="mb-0" id="featuredProperties">0</h3>
-                                    </div>
-                                    <i class="bi bi-star-fill display-4 text-gold"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stat-card teal">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <p class="text-muted mb-1">Visible</p>
-                                        <h3 class="mb-0" id="visibleProperties">0</h3>
-                                    </div>
-                                    <i class="bi bi-eye-fill display-4 text-teal"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stat-card" style="border-left-color: #f59e0b;">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <p class="text-muted mb-1">Pending Meetings</p>
-                                        <h3 class="mb-0" id="pendingMeetingsCount">0</h3>
-                                    </div>
-                                    <i class="bi bi-calendar-check display-4" style="color: #f59e0b;"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="property-table">
-                        <h4 class="mb-3">Recent Properties</h4>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Image</th>
-                                        <th>Title</th>
-                                        <th>Location</th>
-                                        <th>Price</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="recentPropertiesTable">
-                                    <!-- Populated by JS -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+            <div class="content-card">
+                <div class="content-card-header">
+                    <h5><i class="bi bi-clock-history me-2 text-primary"></i>Recent Properties</h5>
                 </div>
-
-                <!-- Meeting Requests Section -->
-                <div id="meetingsSection" style="display: none;">
-                    <h2 class="mb-4">Meeting Requests</h2>
-                    <div class="property-table">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div>
-                                <span class="badge bg-warning text-dark me-2" id="pendingBadge">0 Pending</span>
-                                <span class="badge bg-success me-2" id="confirmedBadge">0 Confirmed</span>
-                                <span class="badge bg-secondary" id="cancelledBadge">0 Cancelled</span>
-                            </div>
-                            <select class="form-select w-auto" id="meetingFilterStatus" onchange="loadMeetingsTable()">
-                                <option value="all">All Requests</option>
-                                <option value="pending">Pending</option>
-                                <option value="confirmed">Confirmed</option>
-                                <option value="cancelled">Cancelled</option>
-                            </select>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Phone</th>
-                                        <th>Loan Type</th>
-                                        <th>Preferred Date</th>
-                                        <th>Preferred Time</th>
-                                        <th>Employment</th>
-                                        <th>Status</th>
-                                        <th>Confirmed Date/Time</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="meetingsTable">
-                                    <!-- Populated by JS -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Title</th>
+                                <th>Location</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentPropertiesTable">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
                 </div>
-
-                <!-- Properties Management Section -->
-                <div id="propertiesSection" style="display: none;">
-                    <h2 class="mb-4">Manage Properties</h2>
-
-                    <div class="property-table">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Image</th>
-                                        <th>Title</th>
-                                        <th>Type</th>
-                                        <th>Location</th>
-                                        <th>Price</th>
-                                        <th>Visible</th>
-                                        <th>Featured</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="propertiesTable">
-                                    <!-- Populated by JS -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Add Property Section -->
-                <div id="addPropertySection" style="display: none;">
-                    <h2 class="mb-4">Add New Property</h2>
-
-                    <div class="property-table">
-                        <form id="addPropertyForm">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">Property Title *</label>
-                                    <input type="text" class="form-control" id="propTitle" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Property Type *</label>
-                                    <select class="form-select" id="propType" required>
-                                        <option value="">Select Type</option>
-                                        <option value="residential">Residential</option>
-                                        <option value="commercial">Commercial</option>
-                                        <option value="land">Land</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Location *</label>
-                                    <input type="text" class="form-control" id="propLocation" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Price (₹) *</label>
-                                    <input type="number" class="form-control" id="propPrice" required>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">Area *</label>
-                                    <input type="text" class="form-control" id="propArea" placeholder="e.g., 2000 sq ft"
-                                        required>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">Bedrooms</label>
-                                    <input type="number" class="form-control" id="propBedrooms"
-                                        placeholder="Leave empty if N/A">
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">Bathrooms</label>
-                                    <input type="number" class="form-control" id="propBathrooms"
-                                        placeholder="Leave empty if N/A">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Image URL *</label>
-                                    <input type="url" class="form-control" id="propImage" placeholder="https://..."
-                                        required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Auction Date *</label>
-                                    <input type="date" class="form-control" id="propAuctionDate" required>
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label">Description *</label>
-                                    <textarea class="form-control" id="propDescription" rows="3" required></textarea>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="propVisible" checked>
-                                        <label class="form-check-label" for="propVisible">
-                                            Make Visible on Website
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="propFeatured">
-                                        <label class="form-check-label" for="propFeatured">
-                                            Mark as Featured
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary btn-lg">
-                                        <i class="bi bi-plus-circle"></i> Add Property
-                                    </button>
-                                    <button type="reset" class="btn btn-outline-secondary btn-lg ms-2">
-                                        <i class="bi bi-x-circle"></i> Reset
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
             </div>
         </div>
-    </div>
 
-    <!-- Confirm Meeting Modal -->
+        <!-- ── MEETING REQUESTS ── -->
+        <div id="meetingsSection" style="display: none;">
+            <div class="page-title"><i class="bi bi-calendar-check"></i> Meeting Requests</div>
+            <div class="content-card">
+                <div class="content-card-header">
+                    <div class="status-bar">
+                        <span class="status-chip pending"><i class="bi bi-hourglass-split"></i> <span
+                                id="pendingBadge">0 Pending</span></span>
+                        <span class="status-chip confirmed"><i class="bi bi-check-circle-fill"></i> <span
+                                id="confirmedBadge">0 Confirmed</span></span>
+                        <span class="status-chip cancelled"><i class="bi bi-x-circle-fill"></i> <span
+                                id="cancelledBadge">0 Cancelled</span></span>
+                    </div>
+                    <select class="form-select form-select-sm w-auto" id="meetingFilterStatus"
+                        onchange="loadMeetingsTable()">
+                        <option value="all">All Requests</option>
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Client</th>
+                                <th>Phone</th>
+                                <th>Loan Type</th>
+                                <th>Loan Amount</th>
+                                <th>Pref. Date</th>
+                                <th>Pref. Time</th>
+                                <th>Employment</th>
+                                <th>Status</th>
+                                <th>Confirmed Date/Time</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="meetingsTable">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── PROPERTIES MANAGEMENT ── -->
+        <div id="propertiesSection" style="display: none;">
+            <div class="page-title"><i class="bi bi-building"></i> Manage Properties</div>
+            <div class="content-card">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Location</th>
+                                <th>Price</th>
+                                <th>Visible</th>
+                                <th>Featured</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="propertiesTable">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── ADD PROPERTY ── -->
+        <div id="addPropertySection" style="display: none;">
+            <div class="page-title"><i class="bi bi-plus-circle"></i> Add New Property</div>
+            <div class="content-card">
+                <div class="content-card-body">
+                    <form id="addPropertyForm">
+                        <p class="form-section-label">Property Details</p>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-500">Property Title <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="propTitle" required
+                                    placeholder="e.g. 3BHK Flat in Pune">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-500">Property Type <span
+                                        class="text-danger">*</span></label>
+                                <select class="form-select" id="propType" required>
+                                    <option value="">Select Type</option>
+                                    <option value="residential">Residential</option>
+                                    <option value="commercial">Commercial</option>
+                                    <option value="land">Land</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-500">Location <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="propLocation" required
+                                    placeholder="City, Area">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-500">Price (₹) <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="propPrice" required
+                                    placeholder="Enter amount">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-500">Area <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="propArea" placeholder="e.g., 1200 sq ft"
+                                    required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-500">Bedrooms</label>
+                                <input type="number" class="form-control" id="propBedrooms" placeholder="—">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-500">Bathrooms</label>
+                                <input type="number" class="form-control" id="propBathrooms" placeholder="—">
+                            </div>
+                        </div>
+                        <p class="form-section-label">Media & Dates</p>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-8">
+                                <label class="form-label fw-500">Image URL <span class="text-danger">*</span></label>
+                                <input type="url" class="form-control" id="propImage" placeholder="https://..."
+                                    required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-500">Auction Date <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="propAuctionDate" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-500">Description <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="propDescription" rows="3" required
+                                    placeholder="Describe the property..."></textarea>
+                            </div>
+                        </div>
+                        <p class="form-section-label">Visibility</p>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="propVisible" checked>
+                                    <label class="form-check-label" for="propVisible">Make Visible on Website</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="propFeatured">
+                                    <label class="form-check-label" for="propFeatured">Mark as Featured</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary px-4"><i class="bi bi-plus-circle me-1"></i>
+                                Add Property</button>
+                            <button type="reset" class="btn btn-outline-secondary px-4"><i
+                                    class="bi bi-x-circle me-1"></i> Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ══════════════════ CONFIRM MEETING MODAL ══════════════════ -->
     <div class="modal fade" id="confirmMeetingModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Confirm Meeting</h5>
+                    <h5 class="modal-title"><i class="bi bi-calendar-check me-2"></i>Confirm Meeting</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="confirmMeetingId">
                     <div class="mb-3">
-                        <label class="form-label">Confirmed Date <span class="text-danger">*</span></label>
+                        <label class="form-label fw-semibold">Confirmed Date <span class="text-danger">*</span></label>
                         <input type="date" class="form-control" id="confirmMeetingDate" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Confirmed Time <span class="text-danger">*</span></label>
+                        <label class="form-label fw-semibold">Confirmed Time <span class="text-danger">*</span></label>
                         <select class="form-select" id="confirmMeetingTime" required>
                             <option value="">Select Time</option>
                             <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</option>
@@ -392,27 +732,28 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Note for Client (Optional)</label>
+                        <label class="form-label fw-semibold">Note for Client <small
+                                class="text-muted">(Optional)</small></label>
                         <textarea class="form-control" id="confirmMeetingNote" rows="2"
                             placeholder="Any instructions or notes..."></textarea>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-success" onclick="saveConfirmMeeting()">
-                        <i class="bi bi-check-circle"></i> Confirm Meeting
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success px-4" onclick="saveConfirmMeeting()">
+                        <i class="bi bi-check-circle me-1"></i> Confirm Meeting
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Edit Property Modal -->
+    <!-- ══════════════════ EDIT PROPERTY MODAL ══════════════════ -->
     <div class="modal fade" id="editPropertyModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Property</h5>
+                    <h5 class="modal-title"><i class="bi bi-pencil-square me-2"></i>Edit Property</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
@@ -466,9 +807,11 @@
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" onclick="savePropertyEdit()">Save Changes</button>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary px-4" onclick="savePropertyEdit()">
+                        <i class="bi bi-save me-1"></i> Save Changes
+                    </button>
                 </div>
             </div>
         </div>
@@ -476,6 +819,31 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Mobile Sidebar Toggle (must be before admin.js) -->
+    <script>
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const icon = document.getElementById('sidebarToggleIcon');
+            if (sidebar.classList.contains('open')) {
+                closeMobileSidebar();
+            } else {
+                sidebar.classList.add('open');
+                overlay.classList.add('active');
+                icon.className = 'bi bi-x-lg';
+            }
+        }
+        function closeMobileSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const icon = document.getElementById('sidebarToggleIcon');
+            if (!sidebar) return;
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+            icon.className = 'bi bi-layout-sidebar';
+        }
+    </script>
 
     <!-- Custom JS -->
     <script src="js/auth.js"></script>

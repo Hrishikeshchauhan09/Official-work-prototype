@@ -29,7 +29,10 @@ function handleLogout() {
 }
 
 // Show different sections
-function showSection(section) {
+function showSection(section, el) {
+    // Close mobile sidebar when navigating
+    if (typeof closeMobileSidebar === 'function') closeMobileSidebar();
+
     // Hide all sections
     document.getElementById('dashboardSection').style.display = 'none';
     document.getElementById('meetingsSection').style.display = 'none';
@@ -54,7 +57,7 @@ function showSection(section) {
     document.querySelectorAll('.admin-sidebar .nav-link').forEach(link => {
         link.classList.remove('active');
     });
-    event.target.classList.add('active');
+    if (el) el.classList.add('active');
 }
 
 // Load dashboard statistics
@@ -71,6 +74,12 @@ function loadDashboard() {
     const meetings = meetingManager.getAll();
     const pending = meetings.filter(m => m.status === 'pending');
     document.getElementById('pendingMeetingsCount').textContent = pending.length;
+
+    // Update sidebar badge
+    const sidebarBadge = document.getElementById('sidebarMeetingBadge');
+    if (sidebarBadge) {
+        sidebarBadge.textContent = pending.length > 0 ? pending.length : '';
+    }
 
     // Load recent properties
     loadRecentProperties();
@@ -287,7 +296,7 @@ function loadMeetingsTable() {
     if (!tbody) return;
 
     if (meetings.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="10" class="text-center text-muted py-4">No meeting requests found</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="11" class="text-center text-muted py-4"><i class="bi bi-calendar-x me-2"></i>No meeting requests found</td></tr>`;
         return;
     }
 
@@ -313,6 +322,7 @@ function loadMeetingsTable() {
             <td><strong>${m.name}</strong><br><small class="text-muted">${m.email || ''}</small></td>
             <td>+91 ${m.phone}</td>
             <td><span class="badge bg-info">${m.loanType}</span></td>
+            <td>${m.loanAmount ? '₹' + Number(m.loanAmount).toLocaleString('en-IN') : '<span class="text-muted">—</span>'}</td>
             <td>${meetingManager.formatDate(m.preferredDate)}</td>
             <td>${m.preferredTime}</td>
             <td>${m.employmentType || '-'}</td>
