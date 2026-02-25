@@ -429,6 +429,8 @@ function loadMeetingsTable() {
             : '';
         const deleteBtn = `<button class="btn btn-sm btn-danger" onclick="deleteMeetingAdmin(${m.id})" title="Delete"><i class="bi bi-trash"></i></button>`;
 
+        const pdfBtn = `<button class="btn btn-sm btn-outline-secondary me-1" onclick="downloadSingleMeetingPDF(${m.id})" title="Download Customer Form PDF"><i class="bi bi-file-earmark-person"></i></button>`;
+
         return `<tr>
             <td>${idx + 1}</td>
             <td><strong>${m.name}</strong><br><small class="text-muted">${m.email || ''}</small></td>
@@ -441,7 +443,7 @@ function loadMeetingsTable() {
             <td>${m.employmentType || '-'}</td>
             <td>${statusBadge}</td>
             <td>${confirmedInfo}</td>
-            <td>${actions}${deleteBtn}</td>
+            <td>${pdfBtn}${actions}${deleteBtn}</td>
         </tr>`;
     }).join('');
 }
@@ -678,3 +680,207 @@ function downloadMeetingPDF(period) {
     doc.save(`SRA_Meeting_Report_${period.charAt(0).toUpperCase() + period.slice(1)}_${safeDate}.pdf`);
 }
 
+// ===================================
+// Individual Customer Form PDF
+// ===================================
+
+function downloadSingleMeetingPDF(meetingId) {
+    const { jsPDF } = window.jspdf;
+    if (!jsPDF) { alert('PDF library not loaded. Please check your internet connection.'); return; }
+
+    const m = meetingManager.getAll().find(x => x.id === meetingId);
+    if (!m) { alert('Meeting not found.'); return; }
+
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const pageW = doc.internal.pageSize.getWidth();
+    const now = new Date();
+
+    // ── Header Banner ──
+    doc.setFillColor(30, 58, 138);
+    doc.rect(0, 0, pageW, 28, 'F');
+
+    // Company name
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(15);
+    doc.text('Siddhivinayak Realtors & Associates', 14, 11);
+
+    // Address
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.text('Shudhanshu Chamber, A-Wing, 2nd Floor, Above Vikas Hotel, Near Railway Station, Kalyan(W), Maharashtra 421301', 14, 17);
+
+    // Doc title right
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10);
+    doc.text('CUSTOMER MEETING FORM', pageW - 14, 11, { align: 'right' });
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.text('Generated: ' + now.toLocaleString('en-IN'), pageW - 14, 17, { align: 'right' });
+    doc.text('Form ID: #' + m.id, pageW - 14, 22, { align: 'right' });
+
+    let y = 36;
+
+    // ── Status Badge ──
+    const statusColors = {
+        pending: [202, 138, 4],
+        confirmed: [22, 101, 52],
+        cancelled: [185, 28, 28]
+    };
+    const statusLabel = (m.status || 'pending').toUpperCase();
+    const sc = statusColors[m.status] || [100, 100, 100];
+    doc.setFillColor(...sc);
+    doc.roundedRect(14, y - 5, 38, 9, 2, 2, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.text(statusLabel, 33, y + 0.5, { align: 'center' });
+
+    doc.setTextColor(100, 100, 100);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.text('Submitted: ' + (m.submittedAt ? new Date(m.submittedAt).toLocaleString('en-IN') : '—'), 58, y + 0.5);
+
+    y += 10;
+
+    // ── Section helper ──
+    const sectionTitle = (title, yPos) => {
+        doc.setFillColor(240, 244, 255);
+        doc.rect(14, yPos, pageW - 28, 7, 'F');
+        doc.setTextColor(30, 58, 138);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.text(title, 17, yPos + 5);
+        return yPos + 10;
+    };
+
+    const fieldRow = (label, value, yPos, fullWidth = false) => {
+        doc.setTextColor(80, 80, 80);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(8);
+        doc.text(label + ':', 17, yPos);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(30, 30, 30);
+        const maxW = fullWidth ? pageW - 50 : 70;
+        const lines = doc.splitTextToSize(value || '—', maxW);
+        doc.text(lines, 55, yPos);
+        return yPos + (lines.length * 5) + 1;
+    };
+
+    // ── SECTION 1: Customer Details ──
+    y = sectionTitle('1.  CUSTOMER DETAILS', y);
+
+    const col1x = 14, col2x = pageW / 2;
+    const startY1 = y;
+
+    // Left column
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(80, 80, 80);
+    doc.text('Full Name:', col1x + 3, y);
+    doc.setFont('helvetica', 'normal'); doc.setTextColor(30, 30, 30);
+    doc.text(m.name || '—', col1x + 35, y);
+    y += 6;
+
+    doc.setFont('helvetica', 'bold'); doc.setTextColor(80, 80, 80);
+    doc.text('Phone:', col1x + 3, y);
+    doc.setFont('helvetica', 'normal'); doc.setTextColor(30, 30, 30);
+    doc.text('+91 ' + (m.phone || '—'), col1x + 35, y);
+    y += 6;
+
+    doc.setFont('helvetica', 'bold'); doc.setTextColor(80, 80, 80);
+    doc.text('Email:', col1x + 3, y);
+    doc.setFont('helvetica', 'normal'); doc.setTextColor(30, 30, 30);
+    doc.text(m.email || '—', col1x + 35, y);
+    y += 6;
+
+    // Right column (reset y to startY1)
+    let yr = startY1;
+    doc.setFont('helvetica', 'bold'); doc.setTextColor(80, 80, 80);
+    doc.text('Employment Type:', col2x + 3, yr);
+    doc.setFont('helvetica', 'normal'); doc.setTextColor(30, 30, 30);
+    doc.text(m.employmentType || '—', col2x + 38, yr);
+    yr += 6;
+
+    doc.setFont('helvetica', 'bold'); doc.setTextColor(80, 80, 80);
+    doc.text('Preferred Location:', col2x + 3, yr);
+    doc.setFont('helvetica', 'normal'); doc.setTextColor(30, 30, 30);
+    doc.text(m.location || '—', col2x + 38, yr);
+    yr += 6;
+
+    y = Math.max(y, yr) + 4;
+
+    // ── SECTION 2: Meeting Details ──
+    y = sectionTitle('2.  MEETING REQUEST DETAILS', y);
+
+    const meetingType = m.type === 'property-inquiry' ? 'Property Inquiry' : 'Loan Meeting (' + (m.loanType || '—') + ')';
+    y = fieldRow('Request Type', meetingType, y);
+    y = fieldRow('Preferred Date', m.preferredDate ? new Date(m.preferredDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }) : '—', y);
+    y = fieldRow('Preferred Time', m.preferredTime || '—', y);
+
+    if (m.type !== 'property-inquiry') {
+        y = fieldRow('Loan Amount', m.loanAmount ? '₹' + Number(m.loanAmount).toLocaleString('en-IN') : '—', y);
+    }
+
+    if (m.message) {
+        y = fieldRow('Message / Note', m.message, y, true);
+    }
+
+    y += 2;
+
+    // ── SECTION 3: Property Inquiry (if applicable) ──
+    if (m.type === 'property-inquiry' && m.properties && m.properties.length > 0) {
+        y = sectionTitle('3.  PROPERTIES OF INTEREST', y);
+
+        m.properties.forEach((p, i) => {
+            doc.setFillColor(248, 250, 255);
+            doc.rect(17, y - 3, pageW - 34, 12, 'F');
+            doc.setDrawColor(200, 210, 240);
+            doc.rect(17, y - 3, pageW - 34, 12, 'S');
+
+            doc.setFont('helvetica', 'bold'); doc.setTextColor(30, 58, 138); doc.setFontSize(8.5);
+            doc.text((i + 1) + '.  ' + (p.title || '—'), 21, y + 2);
+            doc.setFont('helvetica', 'normal'); doc.setTextColor(80, 80, 80); doc.setFontSize(7.5);
+            doc.text('Location: ' + (p.location || '—') + '   |   Price: ' + (p.price ? '₹' + Number(p.price).toLocaleString('en-IN') : '—'), 21, y + 7);
+            y += 16;
+        });
+        y += 2;
+    }
+
+    // ── SECTION 4: Status Info ──
+    const secNum = (m.type === 'property-inquiry') ? '4' : '3';
+    y = sectionTitle(secNum + '.  STATUS & ADMIN NOTES', y);
+
+    if (m.status === 'confirmed') {
+        y = fieldRow('Confirmed Date', m.confirmedDate ? new Date(m.confirmedDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }) : '—', y);
+        y = fieldRow('Confirmed Time', m.confirmedTime || '—', y);
+        if (m.adminNote) y = fieldRow('Admin Note', m.adminNote, y, true);
+    } else if (m.status === 'cancelled') {
+        y = fieldRow('Cancellation Reason', m.cancellationReason || '—', y, true);
+        y = fieldRow('Cancelled On', m.cancelledAt ? new Date(m.cancelledAt).toLocaleString('en-IN') : '—', y);
+    } else {
+        doc.setFont('helvetica', 'italic'); doc.setTextColor(150, 150, 150); doc.setFontSize(8);
+        doc.text('Meeting is pending admin review.', 17, y);
+        y += 7;
+    }
+
+    // ── Signature Block ──
+    y = Math.max(y + 10, 230);
+    doc.setDrawColor(180, 180, 180);
+    doc.line(14, y, 80, y);
+    doc.line(pageW - 80, y, pageW - 14, y);
+    doc.setTextColor(120, 120, 120); doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+    doc.text('Customer Signature', 14, y + 5);
+    doc.text('Admin / Authorised Signatory', pageW - 80, y + 5);
+
+    // ── Footer ──
+    const footerY = doc.internal.pageSize.getHeight() - 8;
+    doc.setFillColor(30, 58, 138);
+    doc.rect(0, footerY - 3, pageW, 11, 'F');
+    doc.setTextColor(255, 255, 255); doc.setFontSize(7);
+    doc.text('Siddhivinayak Realtors & Associates  |  Kalyan(W), Maharashtra  |  This is a system-generated document', pageW / 2, footerY + 3, { align: 'center' });
+
+    // ── Save ──
+    const safeName = (m.name || 'Customer').replace(/[^a-z0-9]/gi, '_');
+    const safeDate = now.toLocaleDateString('en-IN').replace(/\//g, '-');
+    doc.save(`SRA_Meeting_${safeName}_${safeDate}.pdf`);
+}
