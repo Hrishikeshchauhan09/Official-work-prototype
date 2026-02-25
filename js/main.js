@@ -227,13 +227,18 @@ function displayProperties(properties) {
   const isLoggedIn = auth.isLoggedIn();
 
   grid.innerHTML = properties.map(property => {
+    // Determine image array (backward compat)
+    const imgs = (property.images && property.images.length > 0) ? property.images : [property.image];
+    const hasVideo = property.videoUrl && property.videoUrl.trim() !== '';
+    const carouselId = 'carousel-' + property.id;
+
     if (!isLoggedIn) {
       // Show blurred property card for non-logged-in users
       return `
     <div class="col-lg-4 col-md-6">
       <div class="property-card glass-property-card">
         <div style="position: relative;">
-          <img src="${property.image}" alt="${property.title}" loading="lazy" style="filter: blur(8px);">
+          <img src="${imgs[0]}" alt="${property.title}" loading="lazy" style="filter: blur(8px); width:100%; height:220px; object-fit:cover;">
           ${property.featured ? '<span class="badge-featured">Featured</span>' : ''}
           <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(0,0,0,0.7); padding: 20px; border-radius: 10px; width: 80%;">
             <i class="bi bi-lock-fill text-white display-4 mb-2"></i>
@@ -257,13 +262,57 @@ function displayProperties(properties) {
       const addBtnIcon = inCart ? 'bi-check2-circle' : 'bi-plus-circle';
       const addBtnText = inCart ? 'Added' : 'Add to Inquiry';
 
+      // Build carousel slides
+      const imageSlides = imgs.map((url, idx) => `
+        <div class="carousel-item ${idx === 0 ? 'active' : ''}">
+          <img src="${url}" class="d-block w-100" alt="${property.title} image ${idx + 1}"
+               style="height:220px; object-fit:cover; cursor:pointer;"
+               onclick="openMediaLightbox(${property.id}, ${idx})">
+        </div>
+      `).join('');
+
+      const videoSlide = hasVideo ? `
+        <div class="carousel-item">
+          <div class="d-flex align-items-center justify-content-center bg-dark"
+               style="height:220px; cursor:pointer;" onclick="openMediaLightbox(${property.id}, 'video')">
+            <div class="text-center text-white">
+              <i class="bi bi-play-circle-fill display-3 mb-2 text-warning"></i>
+              <p class="mb-0 small">Watch Video Tour</p>
+            </div>
+          </div>
+        </div>
+      ` : '';
+
+      const carouselControls = (imgs.length > 1 || hasVideo) ? `
+        <button class="carousel-control-prev" type="button" data-bs-target="#${carouselId}" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" style="filter:drop-shadow(0 0 2px #000)"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#${carouselId}" data-bs-slide="next">
+          <span class="carousel-control-next-icon" style="filter:drop-shadow(0 0 2px #000)"></span>
+        </button>
+      ` : '';
+
+      const mediaBadges = `
+        ${imgs.length > 1 ? `<span class="badge bg-dark bg-opacity-75 me-1"><i class="bi bi-images me-1"></i>${imgs.length}</span>` : ''}
+        ${hasVideo ? '<span class="badge bg-danger bg-opacity-85"><i class="bi bi-play-circle me-1"></i>Video</span>' : ''}
+      `;
+
       // Show full property details for logged-in users
       return `
     <div class="col-lg-4 col-md-6">
       <div class="property-card glass-property-card">
         <div style="position: relative;">
-          <img src="${property.image}" alt="${property.title}" loading="lazy">
+          <div id="${carouselId}" class="carousel slide" data-bs-ride="false">
+            <div class="carousel-inner">
+              ${imageSlides}
+              ${videoSlide}
+            </div>
+            ${carouselControls}
+          </div>
           ${property.featured ? '<span class="badge-featured">Featured</span>' : ''}
+          ${(imgs.length > 1 || hasVideo) ? `
+            <span style="position:absolute;bottom:8px;left:8px;z-index:10;">${mediaBadges}</span>
+          ` : ''}
         </div>
         <div class="property-card-body">
           <div class="property-price">${PropertyManager.formatPrice(property.price)}</div>
@@ -303,6 +352,81 @@ function displayProperties(properties) {
   `;
     }
   }).join('');
+}
+
+// ------ Media Lightbox ------
+// propertyId, slideIndex (number) or 'video'
+function openMediaLightbox(propertyId, slideTarget) {
+  const property = propertyManager.getById(propertyId);
+  if (!property) return;
+  const imgs = (property.images && property.images.length > 0) ? property.images : [property.image];
+  const hasVideo = property.videoUrl && property.videoUrl.trim() !== '';
+
+  const body = document.getElementById('mediaLightboxBody');
+  if (!body) return;
+
+  if (slideTarget === 'video') {
+    // Embed video
+    let embed = '';
+    const url = property.videoUrl.trim();
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      const embedUrl = url.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/');
+      embed = `<div class="ratio ratio-16x9"><iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe></div>`;
+    } else {
+      embed = `<video controls class="w-100" style="max-height:70vh;"><source src="${url}"><p class="text-white">Your browser does not support video.</p></video>`;
+    }
+    body.innerHTML = embed;
+  } else {
+    // Image lightbox — overlay buttons, mobile-safe
+    let currentIdx = typeof slideTarget === 'number' ? slideTarget : 0;
+    window._lbCurrent = { propertyId, imgs, hasVideo };
+    window._lbCurrent.currentIdx = currentIdx;
+
+    const renderImg = () => {
+      const ci = window._lbCurrent.currentIdx;
+      const multiImg = imgs.length > 1;
+      body.innerHTML = `
+        <div style="position:relative; display:flex; align-items:center; justify-content:center; min-height:200px;">
+          <img src="${imgs[ci]}" class="img-fluid rounded" style="max-height:65vh; width:100%; object-fit:contain;" alt="Property image">
+          ${multiImg ? `
+            <button class="btn btn-dark btn-sm opacity-75"
+              onclick="lbPrev(${propertyId})"
+              style="position:absolute;left:6px;top:50%;transform:translateY(-50%);z-index:10;border-radius:50%;width:36px;height:36px;padding:0;">
+              <i class="bi bi-chevron-left"></i>
+            </button>
+            <button class="btn btn-dark btn-sm opacity-75"
+              onclick="lbNext(${propertyId})"
+              style="position:absolute;right:6px;top:50%;transform:translateY(-50%);z-index:10;border-radius:50%;width:36px;height:36px;padding:0;">
+              <i class="bi bi-chevron-right"></i>
+            </button>
+          ` : ''}
+        </div>
+        <p class="text-center text-muted mt-2 mb-0" style="font-size:0.85rem;">
+          ${ci + 1} / ${imgs.length}
+          ${hasVideo ? ` &mdash; <span class="text-warning" style="cursor:pointer;" onclick="openMediaLightbox(${propertyId},'video')"><i class="bi bi-play-circle"></i> Watch Video</span>` : ''}
+        </p>
+      `;
+    };
+    renderImg();
+  }
+
+  const existing = bootstrap.Modal.getInstance(document.getElementById('mediaLightboxModal'));
+  if (existing) { existing.show(); return; }
+  const modal = new bootstrap.Modal(document.getElementById('mediaLightboxModal'));
+  modal.show();
+}
+
+function lbPrev(propertyId) {
+  if (!window._lbCurrent) return;
+  const { imgs } = window._lbCurrent;
+  window._lbCurrent.currentIdx = (window._lbCurrent.currentIdx - 1 + imgs.length) % imgs.length;
+  openMediaLightbox(propertyId, window._lbCurrent.currentIdx);
+}
+function lbNext(propertyId) {
+  if (!window._lbCurrent) return;
+  const { imgs } = window._lbCurrent;
+  window._lbCurrent.currentIdx = (window._lbCurrent.currentIdx + 1) % imgs.length;
+  openMediaLightbox(propertyId, window._lbCurrent.currentIdx);
 }
 
 // Apply filters

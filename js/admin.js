@@ -90,19 +90,22 @@ function loadRecentProperties() {
     const properties = propertyManager.getAll().slice(0, 5);
     const tbody = document.getElementById('recentPropertiesTable');
 
-    tbody.innerHTML = properties.map(prop => `
-    <tr>
-      <td><img src="${prop.image}" alt="${prop.title}" class="property-image-small"></td>
-      <td>${prop.title}</td>
-      <td>${prop.location}</td>
-      <td>${PropertyManager.formatPrice(prop.price)}</td>
-      <td>
-        <span class="badge ${prop.visible ? 'bg-success' : 'bg-secondary'}">
-          ${prop.visible ? 'Visible' : 'Hidden'}
-        </span>
-      </td>
-    </tr>
-  `).join('');
+    tbody.innerHTML = properties.map(prop => {
+        const thumb = (prop.images && prop.images.length > 0) ? prop.images[0] : prop.image;
+        return `
+        <tr>
+          <td><img src="${thumb}" alt="${prop.title}" class="property-image-small"></td>
+          <td>${prop.title}</td>
+          <td>${prop.location}</td>
+          <td>${PropertyManager.formatPrice(prop.price)}</td>
+          <td>
+            <span class="badge ${prop.visible ? 'bg-success' : 'bg-secondary'}">
+              ${prop.visible ? 'Visible' : 'Hidden'}
+            </span>
+          </td>
+        </tr>
+      `;
+    }).join('');
 }
 
 // Load all properties in management table
@@ -110,35 +113,44 @@ function loadPropertiesTable() {
     const properties = propertyManager.getAll();
     const tbody = document.getElementById('propertiesTable');
 
-    tbody.innerHTML = properties.map(prop => `
-    <tr>
-      <td><img src="${prop.image}" alt="${prop.title}" class="property-image-small"></td>
-      <td>${prop.title}</td>
-      <td><span class="badge bg-info">${prop.type}</span></td>
-      <td>${prop.location}</td>
-      <td>${PropertyManager.formatPrice(prop.price)}</td>
-      <td>
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" ${prop.visible ? 'checked' : ''} 
-                 onchange="toggleVisibility(${prop.id})">
-        </div>
-      </td>
-      <td>
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" ${prop.featured ? 'checked' : ''} 
-                 onchange="toggleFeatured(${prop.id})">
-        </div>
-      </td>
-      <td>
-        <button class="btn btn-sm btn-primary me-1" onclick="editProperty(${prop.id})">
-          <i class="bi bi-pencil"></i>
-        </button>
-        <button class="btn btn-sm btn-danger" onclick="deleteProperty(${prop.id})">
-          <i class="bi bi-trash"></i>
-        </button>
-      </td>
-    </tr>
-  `).join('');
+    tbody.innerHTML = properties.map(prop => {
+        const thumb = (prop.images && prop.images.length > 0) ? prop.images[0] : prop.image;
+        const imgCount = (prop.images && prop.images.length > 0) ? prop.images.length : 1;
+        const hasVideo = prop.videoUrl && prop.videoUrl.trim() !== '';
+        return `
+        <tr>
+          <td style="position:relative;">
+            <img src="${thumb}" alt="${prop.title}" class="property-image-small">
+            ${imgCount > 1 ? `<span class="badge bg-dark" style="position:absolute;bottom:2px;right:2px;font-size:0.6rem;"><i class="bi bi-images"></i> ${imgCount}</span>` : ''}
+            ${hasVideo ? `<span class="badge bg-danger ms-1" style="font-size:0.6rem;"><i class="bi bi-play-circle"></i></span>` : ''}
+          </td>
+          <td>${prop.title}</td>
+          <td><span class="badge bg-info">${prop.type}</span></td>
+          <td>${prop.location}</td>
+          <td>${PropertyManager.formatPrice(prop.price)}</td>
+          <td>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" ${prop.visible ? 'checked' : ''}
+                     onchange="toggleVisibility(${prop.id})">
+            </div>
+          </td>
+          <td>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" ${prop.featured ? 'checked' : ''}
+                     onchange="toggleFeatured(${prop.id})">
+            </div>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-primary me-1" onclick="editProperty(${prop.id})">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" onclick="deleteProperty(${prop.id})">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join('');
 }
 
 // Setup event listeners
@@ -151,6 +163,17 @@ function setupEventListeners() {
 function handleAddProperty(e) {
     e.preventDefault();
 
+    // Collect all image URLs
+    const imageInputs = document.querySelectorAll('.prop-image-url');
+    const images = Array.from(imageInputs)
+        .map(inp => inp.value.trim())
+        .filter(url => url !== '');
+
+    if (images.length === 0) {
+        alert('Please add at least one image URL.');
+        return;
+    }
+
     const propertyData = {
         title: document.getElementById('propTitle').value,
         type: document.getElementById('propType').value,
@@ -159,7 +182,9 @@ function handleAddProperty(e) {
         area: document.getElementById('propArea').value,
         bedrooms: document.getElementById('propBedrooms').value ? parseInt(document.getElementById('propBedrooms').value) : null,
         bathrooms: document.getElementById('propBathrooms').value ? parseInt(document.getElementById('propBathrooms').value) : null,
-        image: document.getElementById('propImage').value,
+        image: images[0],
+        images: images,
+        videoUrl: document.getElementById('propVideoUrl').value.trim(),
         auctionDate: document.getElementById('propAuctionDate').value,
         description: document.getElementById('propDescription').value,
         visible: document.getElementById('propVisible').checked,
@@ -171,6 +196,8 @@ function handleAddProperty(e) {
     if (result.success) {
         alert('Property added successfully!');
         document.getElementById('addPropertyForm').reset();
+        // Reset image inputs to single row
+        resetImageInputs('propImagesContainer', 'propImageRowTemplate');
         loadDashboard();
     } else {
         alert('Error adding property: ' + result.message);
@@ -209,9 +236,15 @@ function editProperty(id) {
     document.getElementById('editPropArea').value = property.area;
     document.getElementById('editPropBedrooms').value = property.bedrooms || '';
     document.getElementById('editPropBathrooms').value = property.bathrooms || '';
-    document.getElementById('editPropImage').value = property.image;
     document.getElementById('editPropAuctionDate').value = property.auctionDate;
     document.getElementById('editPropDescription').value = property.description;
+    document.getElementById('editPropVideoUrl').value = property.videoUrl || '';
+
+    // Populate multi-image inputs
+    const existingImages = (property.images && property.images.length > 0)
+        ? property.images
+        : (property.image ? [property.image] : []);
+    populateEditImageInputs(existingImages);
 
     // Show modal
     const modal = new bootstrap.Modal(document.getElementById('editPropertyModal'));
@@ -222,6 +255,17 @@ function editProperty(id) {
 function savePropertyEdit() {
     const id = parseInt(document.getElementById('editPropId').value);
 
+    // Collect edited images
+    const editImageInputs = document.querySelectorAll('.edit-prop-image-url');
+    const images = Array.from(editImageInputs)
+        .map(inp => inp.value.trim())
+        .filter(url => url !== '');
+
+    if (images.length === 0) {
+        alert('Please add at least one image URL.');
+        return;
+    }
+
     const updates = {
         title: document.getElementById('editPropTitle').value,
         type: document.getElementById('editPropType').value,
@@ -230,7 +274,9 @@ function savePropertyEdit() {
         area: document.getElementById('editPropArea').value,
         bedrooms: document.getElementById('editPropBedrooms').value ? parseInt(document.getElementById('editPropBedrooms').value) : null,
         bathrooms: document.getElementById('editPropBathrooms').value ? parseInt(document.getElementById('editPropBathrooms').value) : null,
-        image: document.getElementById('editPropImage').value,
+        image: images[0],
+        images: images,
+        videoUrl: document.getElementById('editPropVideoUrl').value.trim(),
         auctionDate: document.getElementById('editPropAuctionDate').value,
         description: document.getElementById('editPropDescription').value
     };
@@ -263,6 +309,56 @@ function deleteProperty(id) {
         alert('Error deleting property: ' + result.message);
     }
 }
+
+// ===================================
+// Multi-Image Input Helpers
+// ===================================
+
+// Add a new image URL row to the given container
+function addImageRow(containerId, cssClass, maxImages = 6) {
+    const container = document.getElementById(containerId);
+    const rows = container.querySelectorAll('.image-url-row');
+    if (rows.length >= maxImages) {
+        alert(`You can add a maximum of ${maxImages} images.`);
+        return;
+    }
+    const div = document.createElement('div');
+    div.className = 'image-url-row d-flex gap-2 align-items-center mb-2';
+    div.innerHTML = `
+        <input type="url" class="form-control ${cssClass}" placeholder="https://...">
+        <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.image-url-row').remove()">
+          <i class="bi bi-x-lg"></i>
+        </button>`;
+    container.appendChild(div);
+}
+
+// Reset image inputs to single empty row
+function resetImageInputs(containerId, cssClass) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = `
+        <div class="image-url-row d-flex gap-2 align-items-center mb-2">
+          <input type="url" class="form-control ${cssClass}" placeholder="https://..." required>
+        </div>`;
+}
+
+// Pre-populate edit modal image rows
+function populateEditImageInputs(images) {
+    const container = document.getElementById('editPropImagesContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    images.forEach((url, idx) => {
+        const isFirst = idx === 0;
+        const div = document.createElement('div');
+        div.className = 'image-url-row d-flex gap-2 align-items-center mb-2';
+        div.innerHTML = `
+            <input type="url" class="form-control edit-prop-image-url" placeholder="https://..." value="${url}"${isFirst ? ' required' : ''}>
+            ${!isFirst ? `<button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.image-url-row').remove()"><i class="bi bi-x-lg"></i></button>` : ''}`;
+        container.appendChild(div);
+    });
+}
+
+
 
 // ===================================
 // Meeting Management Functions

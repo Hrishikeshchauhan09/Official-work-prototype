@@ -34,6 +34,12 @@ class PropertyManager {
                 bathrooms: 3,
                 description: 'Beautiful bank-sealed luxury villa with modern amenities, spacious rooms, and prime location.',
                 image: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&h=600&fit=crop',
+                images: [
+                    'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&h=600&fit=crop',
+                    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop',
+                    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=600&fit=crop'
+                ],
+                videoUrl: '',
                 status: 'available',
                 visible: true,
                 featured: true,
@@ -51,6 +57,11 @@ class PropertyManager {
                 bathrooms: 4,
                 description: 'Prime commercial property ideal for offices, retail, or showroom. Excellent connectivity and parking.',
                 image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop',
+                images: [
+                    'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop',
+                    'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop'
+                ],
+                videoUrl: '',
                 status: 'available',
                 visible: true,
                 featured: true,
@@ -68,6 +79,12 @@ class PropertyManager {
                 bathrooms: 2,
                 description: 'Well-maintained 3BHK apartment in a gated community with all modern amenities.',
                 image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=600&fit=crop',
+                images: [
+                    'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=600&fit=crop',
+                    'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop',
+                    'https://images.unsplash.com/photo-1560448075-bb485b067938?w=800&h=600&fit=crop'
+                ],
+                videoUrl: '',
                 status: 'available',
                 visible: true,
                 featured: false,
@@ -85,6 +102,11 @@ class PropertyManager {
                 bathrooms: null,
                 description: 'Fertile agricultural land with water supply, perfect for farming or future development.',
                 image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=600&fit=crop',
+                images: [
+                    'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=600&fit=crop',
+                    'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&h=600&fit=crop'
+                ],
+                videoUrl: '',
                 status: 'available',
                 visible: true,
                 featured: false,
@@ -102,6 +124,11 @@ class PropertyManager {
                 bathrooms: 2,
                 description: 'Large warehouse facility with loading docks, office space, and excellent logistics connectivity.',
                 image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=600&fit=crop',
+                images: [
+                    'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=600&fit=crop',
+                    'https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&h=600&fit=crop'
+                ],
+                videoUrl: '',
                 status: 'available',
                 visible: true,
                 featured: false,
@@ -119,6 +146,12 @@ class PropertyManager {
                 bathrooms: 4,
                 description: 'Luxurious penthouse with panoramic city views, private terrace, and premium finishes.',
                 image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=600&fit=crop',
+                images: [
+                    'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=600&fit=crop',
+                    'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=600&fit=crop',
+                    'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&h=600&fit=crop'
+                ],
+                videoUrl: '',
                 status: 'available',
                 visible: true,
                 featured: true,
