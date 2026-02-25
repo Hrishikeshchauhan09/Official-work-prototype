@@ -508,3 +508,173 @@ function deleteMeetingAdmin(id) {
     loadMeetingsTable();
     loadDashboard();
 }
+
+// ===================================
+// PDF Report Generation
+// ===================================
+
+function downloadMeetingPDF(period) {
+    const { jsPDF } = window.jspdf;
+    if (!jsPDF) { alert('PDF library not loaded. Please check your internet connection.'); return; }
+
+    const now = new Date();
+    let meetings = meetingManager.getAll();
+    let periodLabel = '';
+    let fromDate = null;
+
+    switch (period) {
+        case 'weekly': {
+            // Start of current week (Monday)
+            const day = now.getDay();
+            const diff = now.getDate() - day + (day === 0 ? -6 : 1);
+            fromDate = new Date(now.getFullYear(), now.getMonth(), diff, 0, 0, 0);
+            periodLabel = 'Weekly (' + fromDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }) + ' – ' + now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) + ')';
+            break;
+        }
+        case 'monthly': {
+            fromDate = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0);
+            periodLabel = 'Monthly (' + now.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' }) + ')';
+            break;
+        }
+        case 'yearly': {
+            fromDate = new Date(now.getFullYear(), 0, 1, 0, 0, 0);
+            periodLabel = 'Yearly (' + now.getFullYear() + ')';
+            break;
+        }
+        default:
+            periodLabel = 'All Records';
+    }
+
+    // Filter by date range
+    if (fromDate) {
+        meetings = meetings.filter(m => {
+            const d = new Date(m.submittedAt || m.preferredDate || m.createdAt);
+            return d >= fromDate && d <= now;
+        });
+    }
+
+    // Sort: newest first
+    meetings.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+
+    // Summary counts
+    const totalCount = meetings.length;
+    const pendingCount = meetings.filter(m => m.status === 'pending').length;
+    const confirmedCount = meetings.filter(m => m.status === 'confirmed').length;
+    const cancelledCount = meetings.filter(m => m.status === 'cancelled').length;
+
+    // ── Init jsPDF (A4 landscape for wider table) ──
+    const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+    const pageW = doc.internal.pageSize.getWidth();
+
+    // ── Header Banner ──
+    doc.setFillColor(30, 58, 138);          // dark blue
+    doc.rect(0, 0, pageW, 22, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(16);
+    doc.text('Siddhivinayak Realtors & Associates', 14, 10);
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Meeting Requests Report  |  ' + periodLabel, 14, 17);
+    doc.text('Generated: ' + now.toLocaleString('en-IN'), pageW - 14, 17, { align: 'right' });
+
+    // ── Summary Row ──
+    const summaryY = 28;
+    const boxW = 55;
+    const boxes = [
+        { label: 'Total', value: totalCount, color: [30, 58, 138] },
+        { label: 'Pending', value: pendingCount, color: [202, 138, 4] },
+        { label: 'Confirmed', value: confirmedCount, color: [22, 101, 52] },
+        { label: 'Cancelled', value: cancelledCount, color: [185, 28, 28] }
+    ];
+    boxes.forEach((b, i) => {
+        const x = 14 + i * (boxW + 4);
+        doc.setFillColor(...b.color);
+        doc.roundedRect(x, summaryY, boxW, 16, 2, 2, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(16);
+        doc.text(String(b.value), x + boxW / 2, summaryY + 8, { align: 'center' });
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        doc.text(b.label, x + boxW / 2, summaryY + 13, { align: 'center' });
+    });
+
+    // ── Table ──
+    if (meetings.length === 0) {
+        doc.setTextColor(100, 100, 100);
+        doc.setFontSize(12);
+        doc.text('No meeting requests found for the selected period.', pageW / 2, summaryY + 30, { align: 'center' });
+    } else {
+        const tableRows = meetings.map((m, i) => {
+            const statusLabel = (m.status || 'pending').charAt(0).toUpperCase() + (m.status || 'pending').slice(1);
+            const submittedDate = m.submittedAt ? new Date(m.submittedAt).toLocaleDateString('en-IN') : '—';
+            const properties = (m.properties && m.properties.length > 0)
+                ? m.properties.map(p => p.title || p.id).join(', ')
+                : (m.loanType || m.type || '—');
+            return [
+                i + 1,
+                m.name || '—',
+                m.phone || '—',
+                m.email || '—',
+                m.location || m.preferredLocation || '—',
+                m.preferredDate || '—',
+                m.preferredTime || '—',
+                properties,
+                statusLabel,
+                submittedDate
+            ];
+        });
+
+        doc.autoTable({
+            startY: summaryY + 22,
+            head: [['#', 'Name', 'Phone', 'Email', 'Location', 'Pref. Date', 'Time', 'Properties / Service', 'Status', 'Submitted']],
+            body: tableRows,
+            theme: 'grid',
+            styles: { fontSize: 7.5, cellPadding: 2.5, overflow: 'linebreak' },
+            headStyles: { fillColor: [30, 58, 138], textColor: 255, fontStyle: 'bold', fontSize: 8 },
+            alternateRowStyles: { fillColor: [240, 244, 255] },
+            columnStyles: {
+                0: { cellWidth: 8, halign: 'center' },
+                1: { cellWidth: 28 },
+                2: { cellWidth: 22 },
+                3: { cellWidth: 40 },
+                4: { cellWidth: 22 },
+                5: { cellWidth: 20 },
+                6: { cellWidth: 14 },
+                7: { cellWidth: 45 },
+                8: { cellWidth: 18, halign: 'center' },
+                9: { cellWidth: 22 }
+            },
+            didDrawCell(data) {
+                // Color-code the Status column
+                if (data.column.index === 8 && data.section === 'body') {
+                    const val = (data.cell.text[0] || '').toLowerCase();
+                    const colors = { pending: [202, 138, 4], confirmed: [22, 101, 52], cancelled: [185, 28, 28] };
+                    if (colors[val]) {
+                        doc.setTextColor(...colors[val]);
+                        doc.setFont('helvetica', 'bold');
+                        doc.setFontSize(7.5);
+                        doc.text(data.cell.text[0], data.cell.x + data.cell.width / 2, data.cell.y + data.cell.height / 2 + 1, { align: 'center' });
+                    }
+                }
+            }
+        });
+    }
+
+    // ── Footer on each page ──
+    const totalPages = doc.internal.getNumberOfPages();
+    for (let pg = 1; pg <= totalPages; pg++) {
+        doc.setPage(pg);
+        doc.setFontSize(7);
+        doc.setTextColor(150);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Siddhivinayak Realtors & Associates — Confidential', 14, doc.internal.pageSize.getHeight() - 5);
+        doc.text(`Page ${pg} of ${totalPages}`, pageW - 14, doc.internal.pageSize.getHeight() - 5, { align: 'right' });
+    }
+
+    // ── Save ──
+    const safeDate = now.toLocaleDateString('en-IN').replace(/\//g, '-');
+    doc.save(`SRA_Meeting_Report_${period.charAt(0).toUpperCase() + period.slice(1)}_${safeDate}.pdf`);
+}
+

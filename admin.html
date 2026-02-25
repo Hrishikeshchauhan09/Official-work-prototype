@@ -20,6 +20,10 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
+    <!-- jsPDF + AutoTable (for PDF reports) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/glassmorphism.css">
@@ -560,6 +564,35 @@
                         <option value="confirmed">Confirmed</option>
                         <option value="cancelled">Cancelled</option>
                     </select>
+
+                    <!-- PDF Download Dropdown -->
+                    <div class="dropdown ms-2">
+                        <button class="btn btn-sm btn-outline-danger dropdown-toggle d-flex align-items-center gap-2"
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-file-earmark-pdf-fill"></i> Download Report
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow">
+                            <li>
+                                <h6 class="dropdown-header"><i class="bi bi-calendar-week me-1"></i>Select Period</h6>
+                            </li>
+                            <li><a class="dropdown-item" href="#" onclick="downloadMeetingPDF('weekly'); return false;">
+                                    <i class="bi bi-calendar2-week me-2 text-primary"></i>This Week
+                                </a></li>
+                            <li><a class="dropdown-item" href="#"
+                                    onclick="downloadMeetingPDF('monthly'); return false;">
+                                    <i class="bi bi-calendar2-month me-2 text-success"></i>This Month
+                                </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="downloadMeetingPDF('yearly'); return false;">
+                                    <i class="bi bi-calendar2 me-2 text-warning"></i>This Year
+                                </a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#" onclick="downloadMeetingPDF('all'); return false;">
+                                    <i class="bi bi-download me-2 text-secondary"></i>All Records
+                                </a></li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table mb-0">
@@ -665,11 +698,13 @@
                         <div class="row g-3 mb-4">
                             <div class="col-12">
                                 <label class="form-label fw-500">Property Images <span class="text-danger">*</span>
-                                    <small class="text-muted fw-normal">(Up to 6 &mdash; First image is the main thumbnail)</small>
+                                    <small class="text-muted fw-normal">(Up to 6 &mdash; First image is the main
+                                        thumbnail)</small>
                                 </label>
                                 <div id="propImagesContainer">
                                     <div class="image-url-row d-flex gap-2 align-items-center mb-2">
-                                        <input type="url" class="form-control prop-image-url" placeholder="https://..." required>
+                                        <input type="url" class="form-control prop-image-url" placeholder="https://..."
+                                            required>
                                     </div>
                                 </div>
                                 <button type="button" class="btn btn-outline-success btn-sm mt-1"
@@ -678,8 +713,10 @@
                                 </button>
                             </div>
                             <div class="col-md-8">
-                                <label class="form-label fw-500">Video URL <small class="text-muted fw-normal">(Optional &mdash; YouTube embed or direct mp4)</small></label>
-                                <input type="url" class="form-control" id="propVideoUrl" placeholder="https://youtube.com/embed/...">
+                                <label class="form-label fw-500">Video URL <small class="text-muted fw-normal">(Optional
+                                        &mdash; YouTube embed or direct mp4)</small></label>
+                                <input type="url" class="form-control" id="propVideoUrl"
+                                    placeholder="https://youtube.com/embed/...">
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label fw-500">Auction Date <span class="text-danger">*</span></label>
