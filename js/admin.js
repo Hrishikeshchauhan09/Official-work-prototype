@@ -366,6 +366,12 @@ function populateEditImageInputs(images) {
 
 function loadMeetingsTable() {
     const filterStatus = document.getElementById('meetingFilterStatus')?.value || 'all';
+    const searchQuery = (document.getElementById('meetingSearchInput')?.value || '').trim().toLowerCase();
+
+    // Show / hide the clear button
+    const clearBtn = document.getElementById('meetingSearchClearBtn');
+    if (clearBtn) clearBtn.style.display = searchQuery ? 'inline-flex' : 'none';
+
     let meetings = meetingManager.getAll();
 
     // Update badges
@@ -380,9 +386,18 @@ function loadMeetingsTable() {
     if (confirmedBadge) confirmedBadge.textContent = `${confirmed.length} Confirmed`;
     if (cancelledBadge) cancelledBadge.textContent = `${cancelled.length} Cancelled`;
 
-    // Filter
+    // Filter by status
     if (filterStatus !== 'all') {
         meetings = meetings.filter(m => m.status === filterStatus);
+    }
+
+    // Filter by search query (name, phone, email)
+    if (searchQuery) {
+        meetings = meetings.filter(m =>
+            (m.name && m.name.toLowerCase().includes(searchQuery)) ||
+            (m.phone && m.phone.toLowerCase().includes(searchQuery)) ||
+            (m.email && m.email.toLowerCase().includes(searchQuery))
+        );
     }
 
     // Sort: newest first
@@ -392,7 +407,10 @@ function loadMeetingsTable() {
     if (!tbody) return;
 
     if (meetings.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="12" class="text-center text-muted py-4"><i class="bi bi-calendar-x me-2"></i>No meeting requests found</td></tr>`;
+        const emptyMsg = searchQuery
+            ? `<i class="bi bi-search me-2"></i>No results found for "<strong>${searchQuery}</strong>"`
+            : `<i class="bi bi-calendar-x me-2"></i>No meeting requests found`;
+        tbody.innerHTML = `<tr><td colspan="12" class="text-center text-muted py-4">${emptyMsg}</td></tr>`;
         return;
     }
 
