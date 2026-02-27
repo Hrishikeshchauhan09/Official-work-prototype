@@ -1366,21 +1366,325 @@
     <script src="js/meeting-schedule.js"></script>
     <script src="js/main.js"></script>
 
-  <!-- Media Lightbox Modal -->
-  <div class="modal fade" id="mediaLightboxModal" tabindex="-1" aria-labelledby="mediaLightboxLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content bg-dark text-white border-0">
-        <div class="modal-header border-0 pb-0">
-          <h6 class="modal-title" id="mediaLightboxLabel"><i class="bi bi-images me-2"></i>Property Media</h6>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- Media Lightbox Modal -->
+    <div class="modal fade" id="mediaLightboxModal" tabindex="-1" aria-labelledby="mediaLightboxLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-dark text-white border-0">
+                <div class="modal-header border-0 pb-0">
+                    <h6 class="modal-title" id="mediaLightboxLabel"><i class="bi bi-images me-2"></i>Property Media</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-3" id="mediaLightboxBody">
+                    <!-- content injected by openMediaLightbox() -->
+                </div>
+            </div>
         </div>
-        <div class="modal-body p-3" id="mediaLightboxBody">
-          <!-- content injected by openMediaLightbox() -->
-        </div>
-      </div>
     </div>
-  </div>
+
+
+    <!-- ===== Loan Detail Sheet Modal (Customer fills after admin enables) ===== -->
+    <div class="modal fade" id="loanDetailSheetModal" tabindex="-1" aria-labelledby="loanDetailSheetModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content" style="border-radius:16px; overflow:hidden;">
+                <div class="modal-header border-0"
+                    style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; padding: 1.4rem 1.8rem;">
+                    <div>
+                        <h4 class="modal-title mb-1" id="loanDetailSheetModalLabel">
+                            <i class="bi bi-file-earmark-text-fill me-2"></i>Loan Detail Sheet
+                        </h4>
+                        <p class="mb-0" style="font-size:0.88rem; opacity:0.85;">Please fill in all the required details
+                            for your loan application.</p>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white ms-3" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+
+                    <!-- Success msg -->
+                    <div id="loanSheetSuccess" class="d-none text-center py-5">
+                        <i class="bi bi-check-circle-fill text-success display-1 mb-3"></i>
+                        <h4 class="text-success">Loan Details Submitted!</h4>
+                        <p class="text-muted">Our team will review your details. Please check the Document Tracker in My
+                            Meetings.</p>
+                        <button class="btn btn-outline-primary mt-2" data-bs-dismiss="modal">Close</button>
+                    </div>
+
+                    <!-- Form -->
+                    <div id="loanSheetFormContainer">
+                        <form id="loanDetailSheetForm">
+                            <!-- Loan Info -->
+                            <div class="p-3 rounded-3 mb-4"
+                                style="background: linear-gradient(135deg, #e0f2fe, #bfdbfe); border-left: 4px solid #1e3a8a;">
+                                <h5 class="text-primary-blue mb-3"><i class="bi bi-info-circle me-2"></i>Loan
+                                    Information</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Loan Type <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="lds_loanType" readonly
+                                            style="background:#e9ecef;">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Loan Amount (₹) <span
+                                                class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="lds_loanAmount"
+                                            placeholder="Enter amount" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Applicant Details -->
+                            <div class="p-3 rounded-3 mb-4" style="background:#f8fafc; border: 1px solid #e2e8f0;">
+                                <h5 class="text-primary-blue mb-3"><i class="bi bi-person-fill me-2"></i>Applicant
+                                    Details</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Applicant Name <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="lds_applicantName" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Applicant Mobile No. <span
+                                                class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">+91</span>
+                                            <input type="tel" class="form-control" id="lds_applicantMobile"
+                                                pattern="[6-9][0-9]{9}" placeholder="10-digit number" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Co-Applicant Name</label>
+                                        <input type="text" class="form-control" id="lds_coApplicantName">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Co-Applicant Mobile No.</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">+91</span>
+                                            <input type="tel" class="form-control" id="lds_coApplicantMobile"
+                                                pattern="[6-9][0-9]{9}" placeholder="10-digit number">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Personal Information -->
+                            <div class="p-3 rounded-3 mb-4" style="background:#f8fafc; border: 1px solid #e2e8f0;">
+                                <h5 class="text-primary-blue mb-3"><i class="bi bi-card-text me-2"></i>Personal
+                                    Information</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">1. Education <span
+                                                class="text-danger">*</span></label>
+                                        <select class="form-select" id="lds_education" required>
+                                            <option value="">Select Education</option>
+                                            <option>Below SSC</option>
+                                            <option>SSC / HSC</option>
+                                            <option>Graduate</option>
+                                            <option>Post Graduate</option>
+                                            <option>Professional</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">2. Married / Single <span
+                                                class="text-danger">*</span></label>
+                                        <select class="form-select" id="lds_maritalStatus" required>
+                                            <option value="">Select Status</option>
+                                            <option>Married</option>
+                                            <option>Single</option>
+                                            <option>Divorced</option>
+                                            <option>Widowed</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">5. Mother's Name <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="lds_motherName" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">6. Number of Dependents <span
+                                                class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="lds_dependents" min="0"
+                                            placeholder="e.g. 2" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Residence -->
+                            <div class="p-3 rounded-3 mb-4" style="background:#f8fafc; border: 1px solid #e2e8f0;">
+                                <h5 class="text-primary-blue mb-3"><i class="bi bi-house-door me-2"></i>Residence
+                                    Details</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">7. Yrs in Current Residence <span
+                                                class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="lds_yrsResidence" min="0"
+                                            step="0.5" placeholder="e.g. 3.5" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">8. Yrs in Current City <span
+                                                class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="lds_yrsCity" min="0" step="0.5"
+                                            placeholder="e.g. 10" required>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label fw-semibold">9. Current Address <span
+                                                class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="lds_currentAddress" rows="2"
+                                            required></textarea>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">10. Landmark <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="lds_landmark" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contact -->
+                            <div class="p-3 rounded-3 mb-4" style="background:#f8fafc; border: 1px solid #e2e8f0;">
+                                <h5 class="text-primary-blue mb-3"><i class="bi bi-envelope me-2"></i>Contact
+                                    Information</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">11. Personal Email ID <span
+                                                class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" id="lds_personalEmail" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">12. Official Email ID</label>
+                                        <input type="email" class="form-control" id="lds_officialEmail">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label fw-semibold">13. Permanent Address <span
+                                                class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="lds_permanentAddress" rows="2"
+                                            required></textarea>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">14. Permanent Contact Number <span
+                                                class="text-danger">*</span></label>
+                                        <input type="tel" class="form-control" id="lds_permanentContact"
+                                            pattern="[0-9]{10}" placeholder="10-digit" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Employment -->
+                            <div class="p-3 rounded-3 mb-4" style="background:#f8fafc; border: 1px solid #e2e8f0;">
+                                <h5 class="text-primary-blue mb-3"><i class="bi bi-briefcase me-2"></i>Employment
+                                    Details</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">15. Yrs in Current Company <span
+                                                class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="lds_yrsCompany" min="0" step="0.5"
+                                            required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">16. Total Work Experience <span
+                                                class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="lds_totalExperience" min="0"
+                                            step="0.5" required>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label fw-semibold">17. Office Address with Landmark <span
+                                                class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="lds_officeAddress" rows="2"
+                                            required></textarea>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">18. Office Landline Number</label>
+                                        <input type="tel" class="form-control" id="lds_officeLandline"
+                                            placeholder="With STD code (e.g. 022-12345678)">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- References -->
+                            <div class="p-3 rounded-3 mb-4" style="background:#f8fafc; border: 1px solid #e2e8f0;">
+                                <h5 class="text-primary-blue mb-3"><i class="bi bi-person-lines-fill me-2"></i>19. Two
+                                    References</h5>
+                                <!-- Reference 1 - Friend -->
+                                <div class="card mb-3 border-0" style="background: rgba(59,130,246,0.06);">
+                                    <div class="card-body">
+                                        <h6 class="text-muted mb-3"><i class="bi bi-person-circle me-1"></i>Reference 1
+                                            — Friend <span class="text-danger">*</span></h6>
+                                        <div class="row g-3">
+                                            <div class="col-md-4">
+                                                <label class="form-label">Friend Name</label>
+                                                <input type="text" class="form-control" id="lds_friend1Name" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Mobile Number</label>
+                                                <input type="tel" class="form-control" id="lds_friend1Mobile"
+                                                    pattern="[0-9]{10}" placeholder="10-digit" required>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label class="form-label">Address</label>
+                                                <textarea class="form-control" id="lds_friend1Address" rows="2"
+                                                    required></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Reference 2 - Relative -->
+                                <div class="card border-0" style="background: rgba(20,184,166,0.06);">
+                                    <div class="card-body">
+                                        <h6 class="text-muted mb-3"><i class="bi bi-people-fill me-1"></i>Reference 2 —
+                                            Relative <span class="text-danger">*</span></h6>
+                                        <div class="row g-3">
+                                            <div class="col-md-4">
+                                                <label class="form-label">Relative Name</label>
+                                                <input type="text" class="form-control" id="lds_relative1Name" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Mobile Number</label>
+                                                <input type="tel" class="form-control" id="lds_relative1Mobile"
+                                                    pattern="[0-9]{10}" placeholder="10-digit" required>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label class="form-label">Address</label>
+                                                <textarea class="form-control" id="lds_relative1Address" rows="2"
+                                                    required></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-3">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    <i class="bi bi-send-fill me-2"></i>Submit Loan Details
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== View Loan Sheet Modal (Read-only, for customer) ===== -->
+    <div class="modal fade" id="viewLoanSheetModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content" style="border-radius:16px; overflow:hidden;">
+                <div class="modal-header border-0"
+                    style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); color:white;">
+                    <h5 class="modal-title"><i class="bi bi-file-earmark-check-fill me-2"></i>Your Submitted Loan
+                        Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4" id="viewLoanSheetBody">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
+
 
 </html>
